@@ -1,0 +1,36 @@
+<form action="<?php echo $this->getSaveReviewUrl();?>" method="post" name="frm-review" id="frm-review">
+<?php $captcha = $this->getCaptchaNumbers(); ?>
+<div class="col-10 pre-1 suf-1 aC fL">
+    <img src="http://static.couponada.in/img/comment-avatar.png" alt="avtar">            
+</div>
+<div class="col-84">
+    <div class="col-100 marginB10">
+        <input class="form-control" name="review[website_id]" value="<?php echo $this->getWebsite()->website_id; ?>" type="hidden">
+        <textarea id="review-comment" class="col-100" rows="6" cols="30" autocomplete="off" placeholder="Review body" name="review[review]"></textarea>
+    </div>
+    <div class="col-48" style="float: left; margin-top: 1%;">
+        <label for="CommentAuthor">Enter your name</label>
+        <input id="CommentAuthor" class="col-100"  type="text" placeholder="Your name" name="review[name]">
+    </div>
+    <div class="col-48" style="float: right; margin-top: 1%;">
+        <label for="CommentSecurityCode">Enter answer</label>
+        <input id="CommentSecurityCode" class="col-100" type="text" name="review[captcha]" placeholder="<?php echo $captcha[0]?> + <?php echo $captcha[1] ?> = ?" >
+    </div>
+    <div class="col-100 marginT15" align="right">
+        <button type="submit" class="btn btn-primary">Add Review</button>
+    </div>
+</div>  
+</form>     
+
+<script>
+var review = new Ccc.Review();
+review.setForm('frm-review');    
+jQuery(document).ready(function()
+{
+    jQuery('#frm-review').submit(function()
+    {
+        review.saveReview();
+        return false;
+    });      
+});
+</script>

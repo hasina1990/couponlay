@@ -1,0 +1,30 @@
+<?php $tagUrl = Ccc::getModel("core/url_rewrite")->getUrlKey(Ccc::getModel("user/session")->getSession("tag")->tag_id, Core_Model_Url_Rewrite::ENTITY_TAG);?>
+<?php if($this->pageCount > 1): ?>
+<ul class="pagination">
+    <li>
+        <?php if(isset($this->previous)): ?>
+            <a title="Previous" class="disable" href="<?php echo $this->baseUrl($tagUrl."/page/".$this->previous); ?>" >&laquo;</a>        
+        <?php else: ?>
+            <a title="Previous" class="active" href="javascript:void(0);">&laquo;</a>
+        <?php endif; ?>
+    </li>
+    
+    <?php foreach($this->pagesInRange as $page): ?> 
+        <li>
+            <?php if($page==$this->current): ?>
+            <a title="<?php echo $this->escape($page); ?>" class="active" href="javascript:void(0);"><?php echo $this->escape($page); ?></a>
+            <?php else: ?>
+            <a title="<?php echo $this->escape($page); ?>" class="disable" href="<?php echo $this->baseUrl($tagUrl."/page/".$page); ?>"><?php echo $this->escape($page); ?></a>
+            <?php endif; ?>
+        </li> 
+    <?php endforeach; ?>
+   
+    <li>
+        <?php if(isset($this->next)): ?>
+            <a title="Next" class="disable" href="<?php echo $this->baseUrl($tagUrl."/page/".$this->next); ?>">&raquo;</a>
+        <?php else: ?>
+            <a title="Next" class="active" href="javascript:void(0);">&raquo;</a>
+        <?php endif; ?>
+    </li>
+</ul>
+<?php endif; ?>

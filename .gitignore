@@ -1,0 +1,15 @@
+library/
+media/
+document/
+data/
+Editor/
+executeSql-.php
+executeSql.php
+menu.sql
+rating.html.php
+runCronManually.php
+skin/
+test.php
+zend_coupon.sql
+*.zip
+application/configs/

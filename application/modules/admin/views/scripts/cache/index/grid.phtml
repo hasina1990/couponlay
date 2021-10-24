@@ -1,0 +1,253 @@
+<?php $caches = $this->getCollection();
+$object = $this->getObject();
+?>
+<input type="hidden" name="selectedIds" id="selectedIds" value=""/>
+<div>
+    <div>
+        <table class="actions" cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class="pager">
+                        <?php if($caches): ?>
+                            <?php echo $this->paginationControl($caches, 'Sliding', 'pages/html/pager.phtml'); ?>
+                        <?php endif;?>
+                    </td>
+                    <td class="filter-actions a-right">
+                        
+                        <?php
+                            if(count($caches))
+                            {
+                                echo $this->formButton('clear cache', $this->translate('clear cache(s)'), array('class'=>'scalable', 'onclick'=>"$object.setFormURL('".$this->getCleanUrl()."').setMessage('".$this->translate('Please select at least one record to clear.')."').confirmDelete('Are you sure you want to clear cache for these records?');"));
+                                echo $this->formButton('update', $this->translate('Update'), array('class'=>'scalable', 'onclick'=>"$object.setFormURL('".$this->url(array('action'=>'update'))."').loadPage()")); 
+                            }
+                        ?>
+                        
+                        
+                        <button id="" title="Reset Filter" type="button" class="scalable " onclick="<?php echo $object; ?>.setFormURL('<?php echo $this->getResetUrl()?>').loadPage();">
+                            <span><span><span><?php echo $this->translate('Reset Filter')?></span></span></span>
+                        </button>
+                        <button title="Search" type="submit" class="scalable" style="" onclick="<?php echo $object; ?>.setFormURL('<?php echo $this->getGridUrl()?>').loadPage(); return false;">
+                            <span><span><span><?php echo $this->translate('Search')?></span></span></span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div id="periodGrid_massaction">
+            <table class="massaction" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                          <td>
+                            
+                            <a href="javascript:void(0);" onclick="<?php echo $object; ?>.selectAll()">Select All</a>
+                            <span class="separator">|</span>
+                            <a href="javascript:void(0);" onclick="<?php echo $object; ?>.unselectAll()">Unselect All</a>
+                            <span class="separator">|</span>
+                            <a href="javascript:void(0);" onclick="<?php echo $object; ?>.selectVisible()">Select Visible</a>
+                            <span class="separator">|</span>
+                            <a href="javascript:void(0);" onclick="<?php echo $object; ?>.unselectVisible()">Unselect Visible</a>
+                            <span class="separator">|</span>
+                            <span id="row-count">0</span>
+                            <!--<input style="width: 50px;" disabled="disabled" type="text" name="row-count" value="0" id="row-count"/>--> items selected
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="grid">
+            <div class="hor-scroll">
+                <table class="data" id="periodGrid_table" cellspacing="0">
+                    <colgroup>
+                        <col class="a-center" width="50">
+                        <col width="110">
+                        <col width="150">
+                        <col width="150">
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col width="60">
+                    </colgroup>
+                    <thead>
+                        <tr class="headings">
+                            <th class="no-link">
+                                <span class="nobr">&nbsp;</span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr"><?php echo $this->getHeaderHtml($this->translate('ID'),'cache_id') ?></span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr"><?php echo $this->getHeaderHtml($this->translate('Created On'),'created_date') ?></span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr"><?php echo $this->getHeaderHtml($this->translate('Updated On'),'updated_date') ?></span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr"><?php echo $this->getHeaderHtml($this->translate('Name'),'name') ?></span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr"><?php echo $this->getHeaderHtml($this->translate('Code'),'code') ?></span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr"><?php echo $this->getHeaderHtml($this->translate('Prefix'),'prefix') ?></span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr"><?php echo $this->getHeaderHtml($this->translate('Lifetime'),'lifetime') ?></span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr"><?php echo $this->getHeaderHtml($this->translate('Tag'),'tag') ?></span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr"><?php echo $this->getHeaderHtml($this->translate('Enabled'),'is_enabled') ?></span>
+                            </th>
+                            <th class="no-link last">
+                                <span class="nobr"><?php echo $this->translate('Action'); ?></span>
+                            </th>
+                        </tr>
+                        <tr class="filter">
+                            <th></th>
+                            <th>
+                                <div class="field-100">
+                                    <table width="160" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td valign="top"><?php echo $this->translate('From:'); ?></td>
+                                            <td><?php echo $this->formText("cache_id_from", $this->search()->cache_id_from, array('class'=>'input-text', 'maxlength'=>11)); ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top"><?php echo $this->translate('To:'); ?></td>
+                                            <td><?php echo $this->formText("cache_id_to", $this->search()->cache_id_to, array('class'=>'input-text', 'maxlength'=>11)); ?></td>
+                                        </tr>         
+                                    </table>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="field-100">
+                                    <table width="160" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td valign="top"><?php echo $this->translate('From:'); ?></td>
+                                            <td><?php echo $this->formText("created_from_date", $this->search()->created_from_date, array('id'=>'created_from_date', 'class'=>'w2em format-y-m-d divider-dash input-text', 'readonly'=>'readonly', 'style'=>'width: 90px; align:center; vertical-align: middle;')); ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top"><?php echo $this->translate('To:'); ?></td>
+                                            <td><?php echo $this->formText("created_to_date", $this->search()->created_to_date, array('id'=>'created_to_date', 'class'=>'w2em format-y-m-d divider-dash input-text', 'readonly'=>'readonly', 'style'=>'width: 90px; align:center; vertical-align: middle;')); ?></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="field-100">
+        
+    <table width="160" cellpadding="0" cellspacing="0">
+        <tr>
+            <td valign="top"><?php echo $this->translate('From:'); ?></td>
+            <td><?php echo $this->formText("updated_from_date", $this->search()->updated_from_date, array('id'=>'updated_from_date', 'class'=>'w2em format-y-m-d divider-dash input-text', 'readonly'=>'readonly', 'style'=>'width: 90px; align:center; vertical-align: middle;')); ?></td>
+        </tr>
+        <tr>
+            <td valign="top"><?php echo $this->translate('To:'); ?></td>
+            <td><?php echo $this->formText("updated_to_date", $this->search()->updated_to_date, array('id'=>'updated_to_date', 'class'=>'w2em format-y-m-d divider-dash input-text', 'readonly'=>'readonly', 'style'=>'width: 90px; align:center; vertical-align: middle;')); ?></td>
+        </tr>
+    </table>
+        
+                                </div>
+                            </th>
+                            <th>
+                                <div class="field-100">
+                                    <?php echo $this->formText("name", $this->search()->name, array('class'=>'input-text', 'maxlength'=>100)); ?>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="field-100">
+                                    <?php echo $this->formText("code", $this->search()->code, array('class'=>'input-text')); ?>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="field-100">
+                                    <?php echo $this->formText("prefix", $this->search()->prefix, array('class'=>'input-text')); ?>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="field-100">
+                                    <?php echo $this->formText("lifetime", $this->search()->lifetime, array('class'=>'input-text')); ?>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="field-100">
+                                    <?php echo $this->formText("tag", $this->search()->tag, array('class'=>'input-text')); ?>
+                                </div>
+                            </th>
+                            <th class=" no-link last">
+                                &nbsp;
+                            </th>
+                            <th class=" no-link last">
+                                &nbsp;
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if(count($caches)): ?>
+                            <?php $cnt = 0; ?>
+                            <?php foreach($caches as $_cache): ?>
+                            <tr class="<?php if(($cnt+1)%2==0): ?>odd<?php else:?>even<?php endif; ?> pointer" >
+                                <td class="a-center ">
+                                    <?php echo $this->formCheckbox("check_single[]", $this->escape($_cache->cache_id), array('class'=>'check_single input-checkbox','id'=>'check_single checkbox-id-'.$_cache->cache_id,'onclick'=>"$object.checkSingle(this)")); ?>
+                                </td>
+                                <td class="a-right "><?php echo $this->escape($_cache->cache_id); ?></td>
+                                <td class="a-center "><?php echo $this->date()->getFormattedDateView($_cache->created_date); ?></td>
+                                <td class="a-center "><?php echo $this->date()->getFormattedDateView($_cache->updated_date); ?></td>
+                                <td class="a-left "><?php echo $this->escape($_cache->name); ?></td>
+                                <td class="a-left "><?php echo $this->escape($_cache->code); ?></td>
+                                <td class="a-left "><?php echo $this->escape($_cache->prefix); ?></td>
+                                <td class="a-left "><?php echo $this->escape($_cache->lifetime); ?></td>
+                                <td class="a-left "><?php echo $this->escape($_cache->tag); ?></td>
+                                <td class="a-left "><?php echo $this->FormSelect('is_enabled['.$_cache->cache_id."]",$_cache->is_enabled, array('class'=>'input-select','style'=>'width:60px;'), $this->getIsEnabledOptions());?></td>
+                                <td class="a-center last">
+                                    <a class="link" href="javascript:void(0);" onclick="<?php echo $object; ?>.setElement('main-container').setUseType('url').setURL('<?php echo $this->getEditUrl($_cache); ?>').loadPage();" title="<?php echo $this->translate('Edit')?>"><img src="<?php echo $this->baseUrl('skin/admin/images/edit.png')?>"/></a>
+                                </td>
+                            </tr>
+                            <?php $cnt++; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td class="grid-column center no-record" colspan="11">
+                                <?php echo $this->translate('No records available.');?>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+       </div>
+    </div>
+</div>
+
+<script>
+
+var elements = <?php echo json_encode($this->getAllIds()); ?>;
+<?php echo $object; ?>.setAllElements(elements);
+<?php echo $object; ?>.checkVisibleCheckbox(true);
+<?php echo $object; ?>.printCheckedElementCount();
+
+</script>
+
+
+<script type="text/javascript">
+jQuery('#created_from_date').datepicker({
+    dateFormat : 'yy-mm-dd'
+});
+
+jQuery('#created_to_date').datepicker({
+    dateFormat : 'yy-mm-dd'
+});
+
+jQuery('#updated_from_date').datepicker({
+    dateFormat : 'yy-mm-dd'
+});
+
+jQuery('#updated_to_date').datepicker({
+    dateFormat : 'yy-mm-dd'
+});
+</script>

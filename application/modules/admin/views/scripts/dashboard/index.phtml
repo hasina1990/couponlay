@@ -1,0 +1,85 @@
+<?php $dashboardBlock = Ccc::getBlock("admin/dashboard_index"); ?>
+
+<div class="box">
+    <table style="width: 100%;" cellpadding="10" cellspacing="10">
+        <tr>
+            <td style="width:20%;">
+                <div class="order-totals" style="float:left; width: 100%; text-align: left;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td>
+                                <label style="font-size:1.2em; font-weight:bold; white-space: nowrap;">Total Stores:</label>
+                            </td>
+                            <td class="grand_total" style="text-align: right;"><?php echo $dashboardBlock->getTotalStoreCount(); ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td style="width:20%;">
+                <div class="order-totals" style="float:left; width: 100%; text-align: left;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td>
+                                <label style="font-size:1.2em; font-weight:bold; white-space: nowrap;">Total Active Stores:</label>
+                            </td>
+                            <td class="grand_total" style="text-align: right;"><?php echo $dashboardBlock->getTotalActiveStoreCount(); ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td style="width:20%;">
+                <div class="order-totals" style="float:left; width: 100%; text-align: left;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td>
+                                <label style="font-size:1.2em; font-weight:bold; white-space: nowrap;">Total Coupons:</label>
+                            </td>
+                            <td class="grand_total" style="text-align: right;"><?php echo $dashboardBlock->getTotalCouponsCount(); ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td style="width:20%;">
+                <div class="order-totals" style="float:left; width: 100%; text-align: left;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td>
+                                <label style="font-size:1.2em; font-weight:bold; white-space: nowrap;">Total Active Coupons:</label>
+                            </td>
+                            <td class="grand_total" style="text-align: right;"><?php echo $dashboardBlock->getTotalActiveCouponsCount(); ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td style="width:20%;">
+                <div class="order-totals" style="float:left; width: 100%; text-align: left;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td>
+                                <label style="font-size:1.2em; font-weight:bold; white-space: nowrap;">Total Expired Coupons:</label>
+                            </td>
+                            <td class="grand_total" style="text-align: right;"><?php echo $dashboardBlock->getTotalExpiredCouponsCount(); ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<?php echo Ccc::getBlock("admin/dashboard_user")->toHtml();?>
+<div class="content-header" style="border: 0;"></div>
+<?php echo Ccc::getBlock("admin/dashboard_popularstores")->toHtml();?>
+<div class="content-header" style="border: 0;"></div>
+<?php echo Ccc::getBlock("admin/dashboard_popularcoupons")->toHtml();?>
+<div class="content-header" style="border: 0;"></div>
+<?php echo Ccc::getBlock("admin/dashboard_populardeals")->toHtml();?>
+
+<script>
+var dashboard = new Ccc.Dashboard();
+dashboard.setObject('dashboard');
+dashboard.resetCheckedElements();
+dashboard.setForm('grid-search-form');
+dashboard.setUseType('url');
+</script>

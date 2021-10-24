@@ -1,0 +1,20 @@
+<form id="process-grid-form" action="<?php echo $this->getGridUrl()?>" method="post">  
+<div class="content-header">
+    <h3 class="icon-head head-adminhtml-period">
+        <?php echo $this->translate('Processes');?>
+    </h3>
+</div>
+<div id="grid-list"></div>
+</form>
+<script>
+var process = new Ccc.Process();
+process.setObject('process');
+process.resetCheckedElements();
+process.setForm('process-grid-form');
+process.setUseType('url');
+process.setURL('<?php echo $this->getGridUrl()?>');
+if(process.getForm())
+{
+    process.loadPage();
+}
+</script>

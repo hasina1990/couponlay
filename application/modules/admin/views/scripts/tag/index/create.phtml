@@ -1,0 +1,195 @@
+<?php 
+    $tag = $this->getTag(); 
+    $object = $this->getObject();    
+?>
+<div class="columns ">
+
+    <div class="side-col" id="page:left">
+        <h3><?php echo $this->translate('Manage Tags'); ?></h3>
+        <ul id="page_tabs" class="tabs">
+            <li>
+                <a href="javascript:void(0);" class="tabHeader tab-item-link" name="main_section" title="<?php echo $this->translate('Tag Information'); ?>" id="html">
+                    <span><?php echo $this->translate('Tag Information'); ?></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- TABS START -->
+
+    <div class="main-col" id="content">
+        <div class="main-col-inner">
+            <div id="messages"></div>
+            <div class="content-header">
+                <h3 class="icon-head head-admin-page">
+                    <?php if((int)$tag->category_id): ?>
+                        <?php echo $this->translate('Edit Tag'); ?>
+                        <?php else: ?>
+                        <?php echo $this->translate('Add Tag'); ?>
+                        <?php endif; ?>
+                </h3>
+
+                <p class="form-buttons">
+                    <?php echo $this->formButton('cancel', $this->translate('Cancel'), array('class'=>'scalable', 'onclick'=>"$object.setUseType('url').setElement('main-container').setURL('".$this->getIndexJsonUrl()."').loadPage();")); ?>
+                    <?php echo $this->formButton('submit', $this->translate('Save'), array('class'=>'scalable save', 'onclick'=>"$object.setForm('tag_frm').setElement('main-container').setFormURL('".$this->getSaveUrl()."').saveTag(); return false;  ")); ?>
+                </p>
+            </div>
+<form id="tag_frm" name='tag_frm' action="<?php echo $this->url(array('action'=>'save')); ?>" method="post">
+            <div class="entry-edit">
+                    <div class="tabContent" style="display: none;">
+                        <div class="entry-edit">
+                            <div class="entry-edit-head">
+                                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->translate('Tag Information'); ?></h4>
+                                <div class="form-buttons"></div>
+                            </div>
+                            <div class="fieldset " id="page_base_fieldset">
+                                <div class="hor-scroll">
+                                    <table class="form-list" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Category'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormSelect('tag[category_id]',$tag->category_id, array('class'=>'input-select'),$this->getCategories());?>
+                                                    <div id="category_id" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Name'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('tag[name]',$this->escape($tag->name), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="name" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Description'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value" style="width: 100%;">
+                                                    <?php echo $this->FormTextarea('tag[description]', $tag->description, array('id'=>'tag-description', 'class'=>'editor', "style"=>"margin-top: 30px; width:100%;", 'maxlength'=>255)) ;?>
+                                                    <div id="description" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Is Enabled'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormSelect('tag[is_enabled]',$tag->is_enabled, array('class'=>'input-select'),$this->getIsEnabledOptions());?>
+                                                    <div id="is_enabled" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('URL Key'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('tag[url_key]',$this->escape($tag->url_key), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="url_key" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+            </div>
+            
+            <!--NEW FIELD SET-->
+            <div class="entry-edit">
+                <div class="entry-edit-head">
+                    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->translate('Meta-Tags'); ?></h4>
+                    <div class="form-buttons"></div>
+                </div>
+                <div class="fieldset " id="page_base_fieldset">
+                    <div class="hor-scroll">
+                        <table class="form-list" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="label">
+                                        <label for="page_title">
+                                            <?php echo $this->translate('SEO Title'); ?>:
+                                        </label>
+                                    </td>
+                                    <td class="value">
+                                        <?php echo $this->FormText('tag[seo_title]', $tag->seo_title, array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label">
+                                        <label for="page_title">
+                                            <?php echo $this->translate('SEO Keywords'); ?>:
+                                        </label>
+                                    </td>
+                                    <td class="value">
+                                        <?php echo $this->FormText('tag[seo_keyword]', $tag->seo_keyword, array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label">
+                                        <label for="page_title">
+                                            <?php echo $this->translate('SEO Description'); ?>:
+                                        </label>
+                                    </td>
+                                    <td class="value">
+                                        <?php echo $this->FormTextarea('tag[seo_description]', $tag->seo_description, array('class'=>'inout-text', "style"=>"width:100%;")) ;?>
+                                    </td>
+                                </tr>
+                             </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+</form>
+        </div>
+    </div>
+    
+    <!-- TABS END -->
+</div>
+
+<script>
+var tabObject = new Core.Tab();
+jQuery(document).ready(function()
+{
+    tabObject.setupTab();
+    
+    jQuery("#tag-description").redactor({
+        imageUpload: '<?php echo $this->url(array("module"=>"core", "controller"=>"index", "action"=>"upload-image")); ?>',
+            //fileUpload: '<?php echo $this->url(array("module"=>"core", "controller"=>"index", "action"=>"upload-file")); ?>'
+    });
+});
+</script>

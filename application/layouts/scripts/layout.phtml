@@ -1,0 +1,15 @@
+<?php echo $this->doctype(); ?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->system()->getSystemConfig('general/locale/language'); ?>" lang="<?php echo $this->system()->getSystemConfig('general/locale/language'); ?>">
+<?php echo $this->render('pages/html/head.phtml'); ?>
+<body>
+<div class="wrapper">
+	<div class="main">
+		<?php echo $this->render('pages/html/header.phtml'); ?>
+		<div class="container">
+		<?php echo $this->layout()->content; ?>
+		</div>
+		<?php echo $this->render('pages/html/footer.phtml'); ?>
+	</div>
+</div>
+</body>
+</html>

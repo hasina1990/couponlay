@@ -1,0 +1,110 @@
+<?php $coupon = $this->getCouponData(); ?>
+
+<div class="coupon-popup">
+    <div class="col-100" style="margin-bottom: 2%;">
+        <img class="coupon-poup-close" src="<?php echo $this->baseUrl("skin/front/images/icons/popup-close.png"); ?>" alt="Close Popup"/>
+        <p class="couponDatePopup">
+            <?php if($coupon["end_date"] = (string)trim($coupon["end_date"])): ?>
+              <?php if(strtotime($coupon["end_date"]) > strtotime(date("Y-m-d"))): ?>
+                    <span><solid><strong><font color="green"><?php echo ($coupon["type"]== Coupon_Model_Coupon::COUPON_TYPE_CODE)?"COUPON":"DEAL";?> VALID UNTIL</font></strong></solid>:</span><time datetime="<?php echo date("Y-m-d", strtotime($coupon["end_date"])); ?>"><?php echo date("d F, Y", strtotime($coupon["end_date"])); ?></time>
+              <?php else: ?>
+                   <strong><solid><font color="#FFBF00">ONGOING OFFER</font></solid></strong>
+              <?php endif; ?>
+          <?php else: ?>
+                 <strong><solid><font color="#FFBF00">ONGOING OFFER</font></solid></strong>
+          <?php endif; ?>
+        </p>
+        <p class="couponNamePopup"><?php echo $coupon["name"];?></p>
+        <span class="standardPopupCodeDescription">
+            <?php echo $coupon["short_description"]; ?>
+        </span>
+    </div>
+    
+    <div class="col-100">
+        <div class="popupShopImage" align="center">
+        <img src="<?php echo Ccc::getModel("website/uploader")->getIconImageUrl($coupon["website_icon"]); ?>" title="<?php echo ucfirst($coupon["website_name"]); ?>" alt="<?php echo ucfirst($coupon["website_name"]); ?>"/>
+        </div>
+        <div class="popupTextContent" id="popupTextContent-<?php echo $coupon["coupon_id"] ?>">
+            <div class="codeFrameLabel" id="flash-couponcode-<?php echo $coupon["coupon_id"]?>" align="center">
+                <div class="popup-couponcode" align="center"><?php echo $coupon["code"]?></div>
+                <div class="popup-boxcopy">
+                    <textarea id="text-to-copy-<?php echo $coupon["coupon_id"]; ?>" style="display: none;"><?php echo $coupon["code"]?></textarea>
+                    <button class="btn btn-small btn-primary btn-block popup-btncopy copy-button" title="Copy" type="button" id="copy-button-<?php echo $coupon["coupon_id"]; ?>" >Copy</button>
+                </div>                               
+            </div>
+            <div class="nonflash-couponcode-<?php echo $coupon["coupon_id"]?>" style="display: none;">
+                <div align="center" class="nonflash-couponlabel">Long press the code to Copy</div>
+                <div class="codeFrameLabel" align="center">
+                        <div class="popup-couponcode"><?php echo $coupon["code"]?></div>                       
+                </div> 
+            </div>
+            <div class="gotosite">
+                <button class="btn btn-lg btn-primary btn-block btn-header-search popup-btn-redirect" type="button" title="Click for discount" onclick="window.open('<?php echo Ccc::getModel("core/url_rewrite")->getRedirectUrlByEntity($coupon["coupon_id"], Core_Model_Url_Rewrite::ENTITY_COUPON); ?>','_blank');">Go to the Site</button>
+            </div>
+        </div>
+    </div>
+    <div style="clear: both;"></div>
+    <div class="col-100" style="margin-top: 1%;">
+        <?php if($coupon["terms_condition"]): ?>
+        <div class="termsAndCondition" style="float: left; margin-right: 1%;">
+            <a class="coupon-termsAndConditions popup-termsAndCondition" data-ga-act="load" data-ga="termsAndConditions" title="Terms and Conditions" id="opened-popup" href="javascript:void(0);">Terms and Conditions</a>
+        </div>
+        <?php endif; ?>
+        
+        <div class="popup-bottom">
+            The stores website has been opened in a new tab. Enter code at checkout.
+        </div>
+        <div class="clear:both;"></div>
+        <?php if($coupon["terms_condition"]): ?> 
+            <div class="termsDescription popuptermsDescription" id="opened-popup-description"><?php echo $coupon["terms_condition"]; ?></div>
+    <?php endif; ?> 
+    </div>
+</div>
+
+
+
+<script>
+var couponId = "<?php echo $coupon["coupon_id"]; ?>";
+var newslater = new Ccc.NewsLatter();
+//var coupon = new Ccc.Coupon();
+jQuery(document).ready(function(){
+    var isFlashExists = swfobject.hasFlashPlayerVersion('1') ? true : false ;
+    var html;
+    if (isFlashExists) 
+    {
+        jQuery(".copy-button").zclip({ path: "<?php echo $this->baseUrl('skin/front/js/');?>ZeroClipboard.swf", copy: function(){ return jQuery("#text-to-copy-"+couponId).val(); } });
+    }
+    else
+    {
+        html = jQuery(".nonflash-couponcode-"+couponId).html();
+        if(html != null)
+        {
+            jQuery("#popupTextContent-"+couponId).html(html);
+        }        
+    }
+    
+    jQuery("#copy-button-"+couponId).click(function(){
+        
+           if (isFlashExists) 
+           {
+            jQuery(this).parent().parent().removeClass('codeFrameLabel');
+            jQuery(this).parent().parent().addClass('codeFrameLabelCopied');
+            jQuery(this).html('Code Copied');
+            jQuery(this).removeClass('btn-primary');
+            jQuery(this).addClass('btn-success');
+            newslater.setSuccessMessage('Code Copied to clipboard').alertMessage();
+           } 
+           else 
+           {
+                //alert ('NO flash');
+           }
+            
+        
+        
+    });
+    jQuery(".coupon-poup-close").click(function(){
+       jQuery('#btn-popup-'+couponId).popup('hide');
+    });
+});
+</script>
+    

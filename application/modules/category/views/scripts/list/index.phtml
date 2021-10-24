@@ -1,0 +1,47 @@
+  <div class="row">
+         <div class="col-sm-8" id="category-list">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h1 class="panel-title">Browse All Categories</h1>
+            </div>
+            <?php $categories = $this->getCategories();  ?>
+            <?php if(count($categories)): ?>
+                  <?php $count = 1; ?>
+                  <?php foreach($categories as $_category): ?>
+                        <div class="panel-body panel-row <?php if($count == count($categories)): ?>last<?php endif; ?>">
+                          <div>
+                            <?php $url = $this->baseUrl($_category->getURLKey()); ?>
+                            <a href="<?php echo $url; ?>" title="<?php echo ucfirst($_category->name); ?>">
+<img src="<?php echo Ccc::getModel("category/uploader")->setCategory($_category)->getCategoryImageUrl(); ?>" alt="<?php echo ucfirst($_category->name); ?>" class="category-icon" >
+                            </a>
+                            <div class="category-text category-text-name"><h4><a title="<?php echo ucfirst($_category->name); ?>" href="<?php echo $url; ?>"><?php echo ucfirst($_category->name); ?></a></h4></div>
+                          </div>
+                            <div class="clear"></div>
+                            
+                            <?php $tags = $this->getTagsByCategory($_category); ?>
+                            
+                            <?php if(count($tags)): ?>
+                                <div class="tag-list">
+                                    <ul>
+                                        <?php foreach($tags as $_tag): ?>
+                                        <li><p><a title="<?php echo ucfirst($_tag->name); ?>" href="<?php echo $this->baseUrl($_tag->getURLKey()); ?>"><?php echo ucfirst($_tag->name); ?></a></p></li>   
+                                        <?php  endforeach; ?>
+                                    </ul>
+                                </div>
+                            <?php  endif;  ?>
+                        </div>
+                  <?php $count = $count+1; ?>
+                  <?php endforeach; ?>
+            <?php else: ?>
+                  <div class="panel-body panel-row last">
+                          There are no active Categories available.
+                   </div>
+            <?php endif; ?>
+          </div>
+        </div>
+        
+        <div id="rightpanel" class="col-sm-4">
+        <?php echo Ccc::getBlock("website/shop_alphabetlist")->toHtml(); ?>
+        <?php echo Ccc::getBlock("website/shop_popular")->toHtml(); ?>
+        </div>
+  </div>   

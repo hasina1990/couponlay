@@ -1,0 +1,35 @@
+<form id="grid-search-form" action="<?php echo $this->getGridUrl()?>" method="post">  
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-admin">
+                        <?php echo $this->translate('Manage Categories');?>
+                    </h3>
+                </td>
+                <td class="form-buttons">
+                    <button onclick="category.setElement('main-container').setUseType('url').setURL('<?php echo $this->getCreateUrl() ?>').loadPage();" type="button" title="<?php echo $this->translate('Add New Category');?>" class="scalable add">
+                        <span><span><span>
+                        <?php echo $this->translate('Add New Category');?>
+                        </span></span></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="grid-list"></div>
+</form>
+<script>
+var category = new Ccc.Category();
+category.setObject('category');
+category.resetCheckedElements();
+category.setForm('grid-search-form');
+category.setUseType('url');
+category.setURL('<?php echo $this->getGridUrl()?>');
+if(category.getForm())
+{
+    category.loadPage();
+}
+</script>

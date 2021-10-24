@@ -1,0 +1,78 @@
+<?php 
+$websites = $this->getCollection();    
+?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-admin">
+                        <?php echo $this->translate('Popular Stores');?>
+                    </h3>
+                </td>
+                <td class="form-buttons">
+<a href="javascript:void(0);" onclick="dashboard.setElement('main-container').setUseType('url').setURL('<?php echo $this->getManageWebsiteUrl() ?>').loadPage();">
+View All Stores (<?php echo $this->getTotalStoreCount(); ?>)</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <div>
+        <div class="grid">
+            <div class="hor-scroll">
+                <table class="data" id="periodGrid_table" cellspacing="0">
+                    <colgroup>
+                        <col class="a-center" width="100">
+                        <col width="50">
+                        <col width="">
+                        <col width="">
+                        <col width="100">
+                    </colgroup>
+                    <thead>
+                        <tr class="headings">
+                            <th class="no-link">
+                                <span class="nobr">Store Thumbnail</span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr">ID</span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr">Store Name</span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr">Store URL</span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr">View Count</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if(count($websites)): ?>
+                            <?php $cnt = 0; ?>
+                            <?php foreach($websites as $_website): ?>
+                            <tr class="<?php if(($cnt+1)%2==0): ?>odd<?php else:?>even<?php endif; ?> pointer">
+                                <td><img src="<?php echo $this->getIconImageUrl($_website); ?>" alt="<?php echo $_category->name; ?>" width="50" height="50"></td>
+                                <td class="a-right "><?php echo $this->escape($_website->website_id); ?></td>
+                                <td class="a-left "><?php echo $this->escape($_website->name); ?></td>
+                                <td class="a-left "><?php echo $this->escape($_website->website_url); ?></td>
+                                <td class="a-left "><?php echo (int)$_website->view_count; ?></td>
+                            </tr>
+                            <?php $cnt++; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td class="grid-column center no-record" colspan="14">
+                                <?php echo $this->translate('Stores are not available.');?>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>            
+            </div>
+       </div>
+    
+    </div>
+</div>

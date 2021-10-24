@@ -1,0 +1,237 @@
+<?php   
+$collection = $this->getCollection(); 
+?>                                                   
+<div class="row" id="website-main-content">
+    <div class="col-sm-12">
+        <?php $websietName = Ccc::getModel("config/system_config")->getSystemConfig("general/website/name"); ?>
+        <a title="<?php echo $websietName; ?>" href="<?php echo $this->baseUrl(); ?>"><?php echo $websietName; ?></a>
+        <?php echo " / "; ?><a title="Categories" href="<?php echo $this->baseUrl("categories"); ?>">Categories</a>
+        <?php echo " / "; ?><span style="color: #428bca;"><?php echo ucfirst($this->getCategory()->name); ?></span>
+    </div>
+    <div class="col-sm-8" >
+        <div class="categoryBox">
+            <div class="categoryImage">
+                <img class="categoryLogo" src="<?php echo Ccc::getModel("category/uploader")->setCategory($this->getCategory())->getCategoryImageUrl(); ?>" alt="<?php echo ucfirst($this->getCategory()->name); ?>">
+            </div>
+            <div class="categoryDescription"><?php echo $this->getCategory()->description; ?></div>
+        </div>
+        
+        <h2 style="font-weight: bold; font-size: 18px;">List of Coupons & Deals Comes Under <?php echo ucfirst($this->getCategory()->name); ?></h2>
+        <div class="panel panel-default">   
+            <?php $count = 1;?>
+            <?php $couponCount = $collection->getCurrentItems()->count();?>
+            <?php if(count($collection)): ?>
+                <?php foreach($collection as $_coupon):?>
+                     <div class="panel-body panel-row <?php if($_coupon["type"]== Coupon_Model_Coupon::COUPON_TYPE_CODE):?>code-panel<?php else: ?>deal-panel<?php endif; ?> <?php echo ($count == $couponCount)? "last" :""; ?>">
+                          <div class="couponImageContainer ">
+                            <a title="<?php echo ucfirst($_coupon["website_name"]); ?>" href="<?php echo $this->baseUrl(Ccc::getModel("core/url_rewrite")->getUrlKey($_coupon["website_id"], Core_Model_Url_Rewrite::ENTITY_STORE)); ?>">
+                            <div class="codeDiscount <?php if($_coupon["type"]== Coupon_Model_Coupon::COUPON_TYPE_CODE):?>code<?php else: ?>deal<?php endif; ?> image-panel">
+                                
+                                <img alt="<?php echo ucfirst($this->getCategory()->name); ?>" src="<?php echo Ccc::getModel("website/uploader")->getIconImageUrl($_coupon["icon"]); ?>" style="width: 100%;">
+                            </div>
+                            </a>
+                            
+                            <div class="couponColorType standardLabel"> 
+                                <span><?php echo ($_coupon["type"]== Coupon_Model_Coupon::COUPON_TYPE_CODE)?"CODE":"DEAL"; ?></span>
+                            </div>
+                            <div class="couponWork">
+                                <div class="likecount">
+                                    <span id="likecount-<?php echo $_coupon["coupon_id"]."-store-".$_coupon["website_id"]; ?>"><?php echo $this->getAllVotesByCoupon($_coupon["coupon_id"]); ?></span>
+                                </div>
+                                <div class="likeaction">
+                                    <a class="worksButtonHand" id="<?php echo $_coupon["coupon_id"]."-store-".$_coupon["website_id"]; ?>"  data-url="<?php echo $_coupon["coupon_id"]."/store/".$_coupon["website_id"]; ?>" href="javascript:void(0);" title="Works!"></a>
+                                </div>
+                            </div>
+                          </div>
+                          
+                          <div class="couponDescriptionContainer">
+                                <div class="header">
+                                    <div class="date">
+                                          <?php if($_coupon["end_date"] = (string)trim($_coupon["end_date"])): ?>
+                                              <?php if(strtotime($_coupon["end_date"]) > strtotime(date("Y-m-d"))): ?>
+                                                     <p class="dateFormat"> 
+                                                        <span><solid><strong><font color="green"><?php echo ($_coupon["type"]== Coupon_Model_Coupon::COUPON_TYPE_CODE)?"COUPON":"DEAL";?> VALID UNTIL</font></strong></solid>:</span>
+                                                        <time datetime="<?php echo date("Y-m-d", strtotime($_coupon["end_date"])); ?>"><?php echo date("d F, Y", strtotime($_coupon["end_date"])); ?></time>
+                                                    </p>
+                                              <?php else: ?>
+                                                <p class="dateFormat"> 
+                                                    <strong><solid>
+                                                    <font color="#FFBF00">ONGOING OFFER</font>
+                                                    </solid></strong>
+                                                 </p>
+                                              <?php endif; ?>
+                                          <?php else: ?>
+                                                 <p class="dateFormat"> 
+                                                    <strong><solid>
+                                                    <font color="#FFBF00">ONGOING OFFER</font>
+                                                    </solid></strong>
+                                                 </p>
+                                          <?php endif; ?>
+                                    </div>
+                                    <div class="name">
+                                        <h3>
+                                            <a title="<?php echo $_coupon["name"]; ?>" class="btn-coupon deal" href="<?php echo Ccc::getModel("core/url_rewrite")->getRedirectUrlByEntity($_coupon["coupon_id"], Core_Model_Url_Rewrite::ENTITY_COUPON); ?>" id="<?php echo $_coupon["coupon_id"]?>" onclick="window.open('<?php echo $this->getCouponViewUrl($_coupon['coupon_id']); ?>','_blank');window.open(this.href,'_self');">
+                                            <?php echo $_coupon["name"]; ?></a>
+                                        </h3>
+                                    </div>
+                                    <div id="btn-popup-<?php echo $_coupon['coupon_id']?>" style="background-color: #FFF; width: 70%; height: auto; display: none;">
+                                        <?php if((int)$_coupon["coupon_id"] == (int)$this->getRequest()->getParam("cpn_id")):?>
+                                        <?php if($_coupon["type"]== Coupon_Model_Coupon::COUPON_TYPE_CODE): ?>
+                                            <?php echo Ccc::getBlock("coupon/index_code")->setCouponData($_coupon["coupon_id"])->toHtml(); ?>
+                                        <?php else:?>
+                                            <?php echo Ccc::getBlock("coupon/index_promo")->setCouponData($_coupon["coupon_id"])->toHtml(); ?>
+                                        <?php endif; ?>                    
+                                        <?php endif; ?>                    
+                                    </div>
+                                </div>
+                                
+                                <div data-id="<?php echo $_coupon["coupon_id"]; ?>" class="description">
+                                    <span>
+                                        <p><?php echo $_coupon["short_description"]; ?></p>
+                                    </span>
+                                </div>
+                                <div class="couponLinks">
+                                    <button type="button" class="btn btn-primary btn-block btn-coupon-popup" id="coupon-<?php echo $_coupon["coupon_id"]; ?>" data-url="<?php echo $this->getCouponViewUrl($_coupon['coupon_id']); ?>" data-redirect-url="<?php echo Ccc::getModel("core/url_rewrite")->getRedirectUrlByEntity($_coupon["coupon_id"], Core_Model_Url_Rewrite::ENTITY_COUPON); ?>">
+                                        <?php if($_coupon["type"]== Coupon_Model_Coupon::COUPON_TYPE_CODE):?>
+                                            See the Coupon Code
+                                        <?php else:?>
+                                            Activate the Deal
+                                        <?php endif;?>
+                                    </button> 
+                                </div>
+                                
+                                <div class="couponAdditionalInfo col-100 marginT10">
+                                    <div class="couponShopLink">
+                                        Show All <a href="<?php echo $this->baseUrl(Ccc::getModel("core/url_rewrite")->getUrlKey($_coupon["website_id"], Core_Model_Url_Rewrite::ENTITY_STORE)); ?>" title="<?php echo ucfirst($_coupon["website_name"]); ?> Coupons" ><?php echo ucfirst($_coupon["website_name"]); ?> Coupons</a>
+                                    </div>
+                                    <?php if($_coupon["terms_condition"]): ?>
+                                    <div class="termsAndConditions">
+                                        <a class="coupon-termsAndConditions" data-ga-act="load" data-ga="termsAndConditions" title="Terms and Conditions" id="<?php echo $_coupon["coupon_id"];?>" href="javascript:void(0);">Terms and Conditions</a>
+                                    </div>
+                                    <?php endif; ?> 
+                               </div>
+                               
+                               <?php if($_coupon["terms_condition"]): ?> 
+                               <div class="termsDescription col-90 suf-10 clearfix" id="terms_conditions_<?php echo $_coupon["coupon_id"]?>" style="display: none;"><?php echo $_coupon["terms_condition"]; ?></div>
+                               <?php endif;?> 
+                          </div>
+                        </div>
+                    <?php $count++;?>
+                <?php endforeach;?>
+            <?php else: ?>
+                <div class="panel-body panel-row last"> 
+                There are no active coupons available in this category.
+                </div>
+            <?php endif; ?>
+         </div>       
+        <?php echo $this->paginationControl($collection, 'Sliding', 'pages/html/pager.phtml'); ?>
+        
+         <?php $websites = $this->getCategoryWiseWebsites(); if($websites[0] == 0): unset($websites[0]); endif; ?>
+         <?php if(count($websites)): ?>
+            <h2 style="font-weight: bold; font-size: 18px;"><?php echo ucfirst($this->getCategory()->name); ?> coupons are in following stores</h2>
+            <div class="panel panel-default">   
+                <div class="panel-body panel-row last category-stores">
+                <ul>
+                    <?php foreach($websites as $id=>$_website): ?>
+                         <li>
+                            <p>
+                            <a title="<?php echo ucfirst($_website); ?>" href="<?php echo $this->baseUrl(Ccc::getModel("core/url_rewrite")->getUrlKey($id, Core_Model_Url_Rewrite::ENTITY_STORE)); ?>"><?php echo ucfirst($_website); ?></a>
+                            </p>
+                         </li>
+                    <?php endforeach; ?>
+                </ul>
+                </div>  
+            </div>
+            <?php endif; ?> 
+    </div>
+
+ 
+<div id="rightpanel" class="col-sm-4">
+    <?php echo Ccc::getBlock("website/shop_alphabetlist")->toHtml(); ?>
+    <?php echo Ccc::getBlock("website/shop_popular")->toHtml(); ?>
+    
+    <?php $tags = $this->getWebsiteTags(); ?>
+    <?php if(count($tags)): ?>
+    <div>
+        <div class="panel panel-default">   
+            <div class="panel-heading">
+              <h2 class="panel-title">Related to <?php echo ucfirst($this->getCategory()->name); ?></h2>
+            </div> 
+            <div class="panel-body panel-row last">
+              <div>
+                    <div class="popular-store-list">
+                        <ul>
+                            <?php foreach($tags as $_tagId => $_tag): ?>
+                                <li><p><a href="<?php echo $this->baseUrl(Ccc::getModel("core/url_rewrite")->getUrlKey($_tagId, Core_Model_Url_Rewrite::ENTITY_TAG)); ?>" title="<?php echo $_tag; ?>"><?php echo $_tag; ?></a></p></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div> 
+              </div>
+            </div> 
+         </div>       
+    </div>
+    <?php endif; ?>
+</div>
+</div>
+
+<script asynch type="text/javascript" src="<?php echo $this->baseUrl('skin/front/js/readmore.min.js'); ?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl('skin/front/rating/rateit.css'); ?>" />
+<script asynch type="text/javascript" src="<?php echo $this->baseUrl('skin/front/rating/jquery.rateit.js'); ?>"></script>  
+<script asynch type="text/javascript" src="<?php echo $this->baseUrl('skin/front/js/jquery.zclip.js'); ?>"></script>
+<script asynch type="text/javascript" src="<?php echo $this->baseUrl('skin/front/js/jquery.popupoverlay.js'); ?>"></script>  
+<script asynch type='text/javascript' src='<?php echo $this->baseUrl('skin/front/js/swfobject.js'); ?>'> </script>
+
+<script>
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+jQuery(document).ready(function(){
+    
+    jQuery(".worksButtonHand").click(function() {
+        var id = this.id;
+        var voting = new Ccc.Voting();
+        voting.setURL('<?php echo Ccc::getModel("core/url")->getWebsiteUrl()."/user/like/index/coupon/"; ?>'+jQuery("#"+id).data("url"));
+        var response = voting.setVote(1); 
+        if(response){
+             jQuery("#likecount-"+id).text(response); 
+        }
+        jQuery("#likeaction-"+id).css("background-color", "#336699");
+    });
+                        
+    jQuery(".coupon-termsAndConditions").click(function() {
+      var id = this.id;
+        jQuery("#terms_conditions_"+id).slideToggle( "slow", function() {
+      });
+    });
+                
+    jQuery('.description p').readmore({
+        maxHeight: 100,
+        speed: 300, 
+        moreLink: '<a href="#">See more >></a>',
+        lessLink: '<a href="#">See Less <<</a>',
+        embedCSS: true,
+        sectionCSS: 'display: block; width: 100%;',
+        startOpen: false,
+        expandedClass: 'readmore-js-expanded',
+        collapsedClass: 'readmore-js-collapsed',
+        beforeToggle: function(){},
+        afterToggle: function(){}
+    });
+    
+    <?php if($this->canOpenPopUp()):?>
+        var couponId = getParameterByName('cpn_id');
+        if(couponId)
+        {
+            jQuery('#btn-popup-'+couponId).popup('show');
+        }        
+    <?php endif;?>
+    jQuery(".btn-coupon-popup").click(function(){
+        window.open(jQuery("#"+this.id).data("url"),'_blank');
+        window.open(jQuery("#"+this.id).data("redirectUrl"),'_self');
+    });
+});
+</script>

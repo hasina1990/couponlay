@@ -1,0 +1,365 @@
+<?php 
+    $website = $this->getWebsite(); 
+    $categories = $this->getCatgeories();
+    $object = $this->getObject();    
+?>
+<div class="columns ">
+
+    <div class="side-col" id="page:left">
+        <h3><?php echo $this->translate('Manage Stores'); ?></h3>
+        <ul id="page_tabs" class="tabs">
+            <li>
+                <a href="javascript:void(0);" class="tabHeader tab-item-link" name="main_section" title="<?php echo $this->translate('Store Information'); ?>" id="html">
+                    <span><?php echo $this->translate('Store Information'); ?></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- TABS START -->
+
+    <div class="main-col" id="content">
+        <div class="main-col-inner">
+            <div id="messages"></div>
+            <div class="content-header">
+                <h3 class="icon-head head-admin-page">
+                    <?php if((int)$website->website_id): ?>
+                        <?php echo $this->translate('Edit Store'); ?>
+                        <?php else: ?>
+                        <?php echo $this->translate('Add New Store'); ?>
+                        <?php endif; ?>
+                </h3>
+
+                <p class="form-buttons">
+                    <?php echo $this->formButton('cancel', $this->translate('Cancel'), array('class'=>'scalable', 'onclick'=>"$object.setUseType('url').setElement('main-container').setURL('".$this->getIndexJsonUrl()."').loadPage();")); ?>
+                    <?php echo $this->formButton('submit', $this->translate('Save'), array('class'=>'scalable save', 'onclick'=>"$object.setForm('website_frm').setElement('main-container').setFormURL('".$this->getSaveUrl()."').saveWebsite(); return false;  ")); ?>
+                </p>
+            </div>
+
+            <div class="entry-edit">
+                <form id="website_frm" name='website_frm' action="<?php echo $this->url(array('action'=>'save')); ?>" method="post" enctype="multipart/form-data">
+                    <div class="tabContent" style="display: none;">
+                        <div class="entry-edit">
+                            <div class="entry-edit-head">
+                                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->translate('Store Information'); ?></h4>
+                                <div class="form-buttons"></div>
+                            </div>
+                            <div class="fieldset " id="page_base_fieldset">
+                                <div class="hor-scroll">
+                                    <table class="form-list" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Store Thumbnail'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <input type="file" name="icon" id="image"> 
+                                                    <div id="icon" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Store'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <input type="file" name="image" id="image"> 
+                                                    <div id="image" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Category'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormSelect('website[category_id]',($website->category_id)? explode(",", $website->category_id) : null, array('class'=>'input-select', "multiple"=>"multiple"),$categories);?>
+                                                    <div id="category_id" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Store Name'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('website[name]',$this->escape($website->name), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="name" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Store URL'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('website[website_url]',$this->escape($website->website_url), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="website_url" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Destination URL'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('website[destination_url]',$this->escape($website->destination_url), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="destination_url" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Active'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormSelect('website[is_enabled]',$website->is_enabled, array('class'=>'input-select'),$this->getIsEnabledOptions());?>
+                                                    <div id="is_enabled" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('URL KEY'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('website[url_key]', $website->url_key, array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="url_key" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Store Description'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value" style="width: 100%;">
+                                                    <?php echo $this->FormTextarea('website[short_description]', $website->short_description, array('id'=>'website-short-description', 'class'=>'input-text', "style"=>"width:100%;")) ;?>
+                                                    <div id="short_description" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Additional Store Description'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value" style="width: 100%;">
+                                                    <?php echo $this->FormTextarea('website[description]', $website->description, array('id'=>'website-description', 'class'=>'input-text', "style"=>"width:100%;")) ;?>
+                                                    <div id="description" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Store Email'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('website[email]',$this->escape($website->email), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="email" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Store Phone Number'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('website[phone_number]',$this->escape($website->phone_number), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="phone_number" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Facebook Page'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('website[fb_page]',$this->escape($website->fb_page), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="fb_page" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Twitter Page'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('website[twitter_page]',$this->escape($website->twitter_page), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="twitter_page" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Google Plus Page'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('website[google_page]',$this->escape($website->google_page), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="google_page" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Store Address'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormTextarea('website[address]', $website->address, array('class'=>'input-text', 'style'=>'height:4em;')) ;?>
+                                                    <div id="address" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!--NEW FIELD SET-->
+                        <div class="entry-edit">
+                            <div class="entry-edit-head">
+                                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->translate('Meta-Tags'); ?></h4>
+                                <div class="form-buttons"></div>
+                            </div>
+                            <div class="fieldset " id="page_base_fieldset">
+                                <div class="hor-scroll">
+                                    <table class="form-list" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('SEO Title'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('website[seo_title]', $website->seo_title, array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('SEO Keywords'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('website[seo_keyword]', $website->seo_keyword, array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('SEO Description'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormTextarea('website[seo_description]', $website->seo_description, array('class'=>'inout-text', "style"=>"width:100%; height:6em;")) ;?>
+                                                </td>
+                                            </tr>
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    </form>
+            </div>
+        </div>
+    </div>
+    <!-- TABS END -->
+</div>
+
+<script>
+var tabObject = new Core.Tab();
+jQuery(document).ready(function()
+{
+    tabObject.setupTab();
+    
+    jQuery("#website-short-description").redactor({
+        imageUpload: '<?php echo $this->url(array("module"=>"core", "controller"=>"index", "action"=>"upload-image")); ?>',
+            //fileUpload: '<?php echo $this->url(array("module"=>"core", "controller"=>"index", "action"=>"upload-file")); ?>'
+    });
+    jQuery("#website-description").redactor({
+        imageUpload: '<?php echo $this->url(array("module"=>"core", "controller"=>"index", "action"=>"upload-image")); ?>',
+            //fileUpload: '<?php echo $this->url(array("module"=>"core", "controller"=>"index", "action"=>"upload-file")); ?>'
+    });
+});
+</script>

@@ -1,0 +1,38 @@
+<div class="login-container">
+    <div class="login-box">
+        <form id="login_frm" method="post" action="<?php echo $this->baseUrl('admin/login/login-post'); ?>">
+            <div class="login-form">
+                <h2><?php echo $this->translate('Log in to Admin Panel'); ?></h2>
+                <div id="messages">
+                </div>
+                
+                <div class="input-box input-left">
+                    <label for="username">
+                        <?php echo $this->translate('Email Address'); ?>
+                    </label><br/>
+                    <?php echo $this->formText('login[email_address]', null, array('autocomplete'=>'off','placeholder'=>$this->translate('Email'),'class'=>'input-text', 'maxlength'=>254)); ?>
+                </div>
+                
+                <div class="input-box input-right">
+                    <label for="login">
+                        <?php echo $this->translate('Password'); ?>
+                    </label><br />
+                    <?php echo $this->formPassword('login[password]', 'Password', array('autocomplete'=>'off','placeholder'=>$this->translate('Password'),'class'=>'input-text', 'maxlength'=>20)); ?>
+                </div>
+                <div class="clear"></div>
+                <div class="form-buttons">
+                    <?php echo $this->formButton('submit', $this->translate('Login'), array('class'=>'input-button','type'=>'submit','onclick'=>"var login = new Core.Login();login.setForm('login_frm').processLogin();return false;")); ?>
+                </div>
+            </div>
+        </form>
+        <div class="bottom"></div>
+    </div>
+</div>
+
+<script>
+    jQuery(function()
+    {
+        jQuery( "a", ".buttons-set" ).button();
+        jQuery( "button", ".BtnSetnoAlign").button();
+    });
+</script>

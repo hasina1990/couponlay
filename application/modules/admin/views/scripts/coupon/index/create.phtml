@@ -1,0 +1,331 @@
+<?php 
+    $coupon = $this->getCoupon(); 
+    $websites = $this->getWebsites();
+    $object = $this->getObject();    
+?>
+<div class="columns ">
+
+    <div class="side-col" id="page:left">
+        <h3><?php echo $this->translate('Manage Coupons'); ?></h3>
+        <ul id="page_tabs" class="tabs">
+            <li>
+                <a href="javascript:void(0);" class="tabHeader tab-item-link" name="main_section" title="<?php echo $this->translate('Coupon Information'); ?>" id="html">
+                    <span><?php echo $this->translate('Coupon Information'); ?></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- TABS START -->
+
+    <div class="main-col" id="content">
+        <div class="main-col-inner">
+            <div id="messages"></div>
+            <div class="content-header">
+                <h3 class="icon-head head-admin-page">
+                    <?php if((int)$coupon->coupon_id): ?>
+                        <?php echo $this->translate('Edit Coupon'); ?>
+                        <?php else: ?>
+                        <?php echo $this->translate('Add Coupon'); ?>
+                        <?php endif; ?>
+                </h3>
+
+                <p class="form-buttons">
+                    <?php echo $this->formButton('cancel', $this->translate('Cancel'), array('class'=>'scalable', 'onclick'=>"$object.setUseType('url').setElement('main-container').setURL('".$this->getIndexJsonUrl()."').loadPage();")); ?>
+                    <?php echo $this->formButton('submit', $this->translate('Save'), array('class'=>'scalable save', 'onclick'=>"$object.setForm('coupon_frm').setElement('main-container').setFormURL('".$this->getSaveUrl()."').saveCoupon(); return false;  ")); ?>
+                </p>
+            </div>
+
+            <div class="entry-edit">
+                <form id="coupon_frm" name='coupon_frm' action="<?php echo $this->url(array('action'=>'save')); ?>" method="post" enctype="multipart/form-data">
+                    <div class="tabContent" style="display: none;">
+                        <div class="entry-edit">
+                            <div class="entry-edit-head">
+                                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->translate('Coupon Information'); ?></h4>
+                                <div class="form-buttons"></div>
+                            </div>
+                            <div class="fieldset " id="page_base_fieldset">
+                                <div class="hor-scroll">
+                                    <table class="form-list" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Website'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormSelect('coupon[website_id]',$coupon->website_id, array('class'=>'input-select'),$websites);?>
+                                                    <div id="website_id" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Name'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('coupon[name]',$this->escape($coupon->name), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="name" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Coupon Type'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormSelect('coupon[type]',$coupon->type, array('class'=>'input-select', 'id'=>'coupon-type'),$this->getCouponTypeOptions());?>
+                                                    <div id="type" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr id="coupon-code">
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Code'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('coupon[code]',$this->escape($coupon->code), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="code" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr id="coupon-discount">
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Discount'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('coupon[discount]',$this->escape($coupon->discount), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="discount" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Is Enabled'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormSelect('coupon[is_enabled]',$coupon->is_enabled, array('class'=>'input-select'),$this->getIsEnabledOptions());?>
+                                                    <div id="is_enabled" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('URL KEY'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('coupon[url_key]', $coupon->url_key, array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="url_key" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Is Expired'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormSelect('coupon[is_expired]',$coupon->is_expired, array('class'=>'input-select'),$this->getIsExpiredOptions());?>
+                                                    <div id="is_expired" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Start Date'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('coupon[start_date]',($coupon->start_date) ? date("Y-m-d", strtotime($coupon->start_date)) : null, array('id'=>'start_date', 'class'=>'start_date w2em format-y-m-d divider-dash input-text','style'=>'width:100px; align:center; vertical-align: middle;'));?>
+                                                    <div id="start_date" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('End Date'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('coupon[end_date]',($coupon->end_date) ? date("Y-m-d", strtotime($coupon->end_date)) : null, array('id'=>'end_date', 'class'=>'end_date w2em format-y-m-d divider-dash input-text', 'style'=>'width:100px; align:center; vertical-align: middle;'));?>
+                                                    <div id="end_date" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('URL'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('coupon[url]',$this->escape($coupon->url), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="url" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Description'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <textarea name="coupon[short_description]" class="input-text" style="height: 4em;"><?php echo $this->escape($coupon->short_description); ?></textarea>
+                                                    <div id="short_description" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Terms and Condition'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <textarea name="coupon[terms_condition]" class="input-text" style="height: 4em;"><?php echo $this->escape($coupon->terms_condition); ?></textarea>
+                                                    <div id="terms_condition" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Is Hot Coupon'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormSelect('coupon[is_hot_coupon]',$coupon->is_hot_coupon, array('class'=>'input-select'),$this->getIsHotCouponOptions());?>
+                                                    <div id="is_hot_coupon" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Is New Coupon'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormSelect('coupon[is_new]',$coupon->is_new, array('class'=>'input-select'),$this->getIsNewCouponOptions());?>
+                                                    <div id="is_new" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    </form>
+            </div>
+        </div>
+    </div>
+    <!-- TABS END -->
+</div>
+
+<script>
+
+jQuery('#start_date').datepicker({
+    dateFormat : 'yy-mm-dd'
+});
+
+jQuery('#end_date').datepicker({
+    dateFormat : 'yy-mm-dd'
+});
+
+var tabObject = new Core.Tab();
+jQuery(document).ready(function()
+{
+    tabObject.setupTab();
+    
+    jQuery("#coupon-type").change(function(){
+        if(this.value == parseInt('<?php echo Coupon_Model_Coupon::COUPON_TYPE_CODE; ?>'))
+        {
+            jQuery("#coupon-code").show();
+        }
+        else
+        {
+            if(this.value == parseInt('<?php echo Coupon_Model_Coupon::COUPON_TYPE_DEAL; ?>'))
+            {
+                 jQuery("#coupon-code").hide();
+            }
+        }
+    });
+    
+    
+    if(jQuery("#coupon-type").val() == parseInt('<?php echo Coupon_Model_Coupon::COUPON_TYPE_CODE; ?>'))
+    {
+        jQuery("#coupon-code").show();
+    }
+    else
+    {
+        if(jQuery("#coupon-type").val() == parseInt('<?php echo Coupon_Model_Coupon::COUPON_TYPE_DEAL; ?>'))
+        {
+             jQuery("#coupon-code").hide();
+        }
+    }
+});
+</script>

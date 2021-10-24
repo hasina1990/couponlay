@@ -1,0 +1,407 @@
+<div id="fb-root"></div>
+    <div class="container search">
+        <h1>Save Big with Dozens of Coupons and Deals Added Everyday</h1>
+         <h2><b>Shop More! Spend Less!</b></h2>
+         <div class="searchform">
+            <form onsubmit="javascript:void(0); return false;" class="form-search" role="form" name="frmsearch" id="frmsearch" method="post" action="<?php echo $this->getSearchUrl(); ?>">
+                <div class="search-box">
+                    <input type="text" name="search" id="search" class="searchTextBox" placeholder="Type in a store e.g. Amazon, Flipkart, Jabong, etc...">
+                </div>
+                <button class="btn btn-lg btn-primary btn-block btn-search" type="submit">Search</button>
+                <div class="clear"></div>
+            </form>
+        </div>
+      <script type="text/javascript">                                                          
+            var search = new Ccc.Search();
+            search.setForm('frmsearch');
+            jQuery(document).ready(function()
+            {
+                jQuery('.searchTextBox').autocomplete({
+                      source: function( request, response ) {
+                        var matches = jQuery.map( <?php echo json_encode($this->getAllWebsitesForAutoComplete()); ?>, function(json) {
+                          if ( json.toUpperCase().indexOf(request.term.toUpperCase()) === 0 ) {
+                            return json;
+                          }
+                        });
+                        response(matches);
+                      }
+                });
+        
+                jQuery('#frmsearch').submit(function()
+                {         
+                    search.searchStores();
+                    return false;
+                });    
+            });
+        </script> 
+      <div class="clear"></div>
+    </div>
+  
+    <?php $homeStoreBrand = $this->getStoreHomePageBlock(); ?>
+    <?php if($homeStoreBrand): ?>
+    <?php if($homeStoreBrand->is_enabled == Block_Model_Block::IS_ENABLED_YES): ?>
+    <div class="row" id="home-store-brand">
+        <div class="col-sm-12 home-brands">
+            <?php $websites = $this->getWebsites(); ?>
+                <?php if(count($websites)): ?>
+                    <div class="home-shop-store">
+                        <ul>
+                            <?php foreach($websites as $_website): ?>
+                                 <li>
+                                        <?php $url = $this->baseUrl($_website->getURLKey()); ?>
+                                        <?php $imageUrl = Ccc::getModel("website/uploader")->setWebsite($_website)->getIconImageUrl(); ?>
+                                        <a title="<?php echo ucfirst($_website->name); ?>" href="<?php echo $url; ?>">
+            <img src="<?php echo $imageUrl; ?>" alt="<?php echo ucfirst($_website->name); ?>">
+                                        </a>
+                                 </li>
+                            <?php endforeach; ?>
+                        </ul>  
+                   </div>
+                <?php endif; ?>   
+        </div> 
+        <div class="clear"></div>  
+    </div>
+    <?php endif; ?>
+    <?php endif; ?>
+    
+    <?php $homeBannerAd = $this->getBannerAndAdvertiseHomePageBlock(); ?>
+    <?php if($homeBannerAd): ?> 
+    <?php if($homeBannerAd->is_enabled == Block_Model_Block::IS_ENABLED_YES): ?> 
+    <div class="row" id="banner-advertisement">
+         <div class="col-sm-12" id="banner" style="float: left;">
+            <?php $banners = $this->getBanners(); ?>
+            <?php if($banners->count()): ?>
+              <div id="carousel-banner-generic" class="carousel slide" data-ride="carousel">
+                
+               <!-- <ol class="carousel-indicators">
+                <?php $count = 0; ?>
+                <?php foreach($banners as $_banner): ?>
+                    <li data-target="#carousel-banner-generic" data-slide-to="<?php echo $count; ?>" class="<?php if($count==0): ?>active<?php endif; ?>"></li>
+                    <?php $count = $count + 1; ?>
+                <?php endforeach; ?>
+                </ol>-->
+                
+                <div class="carousel-inner crousel-images-banner">
+                <?php $count = 0; ?>
+                <?php foreach($banners as $_banner): ?>
+                    <div class="item <?php if($count==0): ?>active<?php endif; ?>">
+                    
+                    <?php if((int)$_banner->website_id): ?>
+                    
+                    <a href="<?php echo $this->baseUrl(Ccc::getModel("core/url_rewrite")->getUrlKey((int)$_banner->website_id, Core_Model_Url_Rewrite::ENTITY_STORE)); ?>" title="<?php echo $_banner->name; ?>">
+                        <img alt="<?php echo $_banner->name; ?>" src="<?php echo $_banner->getBannerUrl(); ?>" class="img-responsive" />
+                    </a>
+                    
+                    <?php else: ?>
+                    
+                    <img alt="<?php echo $_banner->name; ?>" src="<?php echo $_banner->getBannerUrl(); ?>" class="img-responsive" />
+                    
+                    <?php endif; ?>
+                    </div>
+                    <?php $count = $count + 1; ?>
+                <?php endforeach; ?>
+                </div>
+                <a class="left carousel-control" href="#carousel-banner-generic" role="button" data-slide="prev">
+                  <span class="glyphicon icon-prev"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-banner-generic" role="button" data-slide="next">
+                  <span class="glyphicon icon-next"></span>
+                </a> 
+              </div> 
+            <?php endif; ?>
+            
+            <?php $banners = $this->getAdvetisements(); ?>
+            <?php if($banners->count()): ?>
+              <div id="carousel-advertisement-generic" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                <?php $count = 0; ?>
+                <?php foreach($banners as $_banner): ?>
+                    <div class="item <?php if($count==0): ?>active<?php endif; ?>"><img class="img-responsive" alt="<?php echo basename($_banner->getBannerUrl()); ?>" src="<?php echo $_banner->getBannerUrl(); ?>" /></div>
+                    <?php $count = $count + 1; ?>
+                <?php endforeach; ?>
+                </div> 
+              </div> 
+            <?php endif; ?>
+            
+         </div>
+         <div class="clear"></div>
+    </div> 
+    <?php endif; ?> 
+    <?php endif; ?> 
+    
+    <?php $newslatterBlock = $this->getNewslatterBlock(); ?>
+    <?php if($newslatterBlock): ?>
+    <div class="row">
+        <div class="subscribe-home">
+            <div class="subscribe-header">
+                <h3>Subscribe to FREE Email Alerts</h3>
+                <span style="display: block;"><?php echo htmlspecialchars("Simply enter your email address, choose which store interest you, and hit `Subscribe`."); ?></span>
+            </div>
+            <div class="subscribe-content">
+                <form action="<?php echo $this->getSubscribeUserUrl(); ?>" name="frmnewslatter" id="frmnewslatter" method="post">
+                    <div class="subscribe-content-textbox">
+                    <input class="form-control newslatter" name="email" id="email" placeholder="What's your email address?" type="text">
+                    <div id="email-validate" class="validate-element"></div>
+                    </div>
+                    
+                    <div class="subscribe-content-button">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="Subscribe">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+     </div>
+      <script type="text/javascript">
+            var newslater = new Ccc.NewsLatter();
+            newslater.setForm('frmnewslatter');
+            
+            jQuery(document).ready(function()
+            {
+                jQuery('#frmnewslatter').submit(function()
+                {
+                    newslater.subscribeUser();
+                    return false;
+                });    
+            });   
+        </script>
+   </div>
+  <?php endif; ?>
+  
+  <div class="row">
+         <?php $coupons = $this->getTopFifteenCoupons();  ?>
+            <?php if(count($coupons)): ?>
+         <div class="col-sm-4" id="top15coupons">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2 class="panel-title">Most Used Coupons</h2>
+            </div>            
+                  <?php $count = 1; ?>
+                  <?php foreach($coupons as $_coupon): ?>
+                        <div class="panel-body panel-row <?php if($count == count($coupons)): ?>last<?php endif; ?>">
+                            <?php $url = $this->getWebsiteUrl($_coupon["website_id"]); ?>
+                            <?php $imgurl = Ccc::getModel("website/uploader")->getSmallImageUrl($_coupon["icon"]); ?>
+                            <div class="coupon-icon">
+                                <a title="<?php echo $_coupon["website_name"]; ?>" href="<?php echo $url; ?>">
+                                <img alt="<?php echo $_coupon["website_name"]; ?>" src="<?php echo $imgurl; ?>">
+                                </a>
+                            </div>
+                            <div>
+                                <ul class="coupon-text coupon-text-home">
+                                    <li class="store home">
+                                    <a title="<?php echo $_coupon["website_name"]; ?>" href="<?php echo $url; ?>"><?php echo $_coupon["website_name"]; ?></a></li>
+                                    <li class="store-text home-text">
+                                    <a title="<?php echo $_coupon["name"];?>" style="width: 100%;" class="btn-coupon home-text" href="<?php echo Ccc::getModel("core/url_rewrite")->getRedirectUrlByEntity($_coupon["coupon_id"], Core_Model_Url_Rewrite::ENTITY_COUPON); ?>" id="<?php echo $_coupon["coupon_id"]?>" onclick="window.open('<?php echo $this->getCouponViewUrl($_coupon['coupon_id'], $_coupon["website_id"]); ?>','_blank');window.open(this.href,'_self');">
+                                    <?php echo $_coupon["name"];?>
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                  <?php $count = $count+1; ?>
+                  <?php endforeach; ?>
+          </div>
+        </div>
+        <?php endif; ?>
+        
+        <?php $coupons = $this->getTopFifteenDeals();  ?>
+            <?php if(count($coupons)): ?>
+        <div class="col-sm-4" id="top15delas">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2 class="panel-title">Most Used Deals</h2>
+            </div>
+                  <?php $count = 1; ?>
+                  <?php foreach($coupons as $_coupon): ?>
+                        <div class="panel-body panel-row <?php if($count == count($coupons)): ?>last<?php endif; ?>">
+                            <?php $url = $this->getWebsiteUrl($_coupon["website_id"]); ?>
+                            <?php $imgurl = Ccc::getModel("website/uploader")->getSmallImageUrl($_coupon["icon"]); ?>
+                            <div class="coupon-icon">
+                                <a title="<?php echo $_coupon["website_name"]; ?>" href="<?php echo $url; ?>">
+                                <img alt="<?php echo $_coupon["website_name"]; ?>" src="<?php echo $imgurl; ?>">
+                                </a>
+                            </div>
+                            <div>
+                                <ul class="coupon-text coupon-text-home">
+                                    <li class="store home">
+                                    <a title="<?php echo $_coupon["website_name"]; ?>" href="<?php echo $url; ?>"><?php echo $_coupon["website_name"]; ?></a></li>
+                                    <li class="store-text home-text">
+                                    <a title="<?php echo $_coupon["name"];?>" style="width: 100%;" class="btn-coupon home-text" href="<?php echo Ccc::getModel("core/url_rewrite")->getRedirectUrlByEntity($_coupon["coupon_id"], Core_Model_Url_Rewrite::ENTITY_COUPON); ?>" id="<?php echo $_coupon["coupon_id"]?>" onclick="window.open('<?php echo $this->getCouponViewUrl($_coupon['coupon_id'], $_coupon["website_id"]); ?>','_blank');window.open(this.href,'_self');">
+                                    <?php echo $_coupon["name"];?>
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                  <?php $count = $count+1; ?>
+                  <?php endforeach; ?>
+          </div>
+        </div>
+        <?php endif; ?>
+        
+        <?php $coupons = $this->getRecentlyAddedCouponAndDeals();  ?>
+            <?php if(count($coupons)): ?>
+        <div class="col-sm-4" id="recentlyadded">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h2 class="panel-title">Fresh Offers</h2>
+            </div>
+                  <?php $count = 1; ?>
+                  <?php foreach($coupons as $_coupon): ?>
+                        <div class="panel-body panel-row <?php if($count == count($coupons)): ?>last<?php endif; ?>">
+                            <?php $url = $this->getWebsiteUrl($_coupon["website_id"]); ?>
+                            <?php $imgurl = Ccc::getModel("website/uploader")->getSmallImageUrl($_coupon["icon"]); ?>
+                            <div class="coupon-icon">
+                                <a title="<?php echo $_coupon["website_name"]; ?>" href="<?php echo $url; ?>">
+                                <img alt="<?php echo $_coupon["website_name"]; ?>" src="<?php echo $imgurl; ?>">
+                                </a>
+                            </div>
+                            <div>
+                                <ul class="coupon-text coupon-text-home">
+                                    <li class="store home">
+                                    <a title="<?php echo $_coupon["website_name"]; ?>" href="<?php echo $url; ?>"><?php echo $_coupon["website_name"]; ?></a></li>
+                                    <li class="store-text home-text">
+                                    <a title="<?php echo $_coupon["name"];?>" style="width: 100%;" class="btn-coupon home-text" href="<?php echo Ccc::getModel("core/url_rewrite")->getRedirectUrlByEntity($_coupon["coupon_id"], Core_Model_Url_Rewrite::ENTITY_COUPON); ?>" id="<?php echo $_coupon["coupon_id"]?>" onclick="window.open('<?php echo $this->getCouponViewUrl($_coupon['coupon_id'], $_coupon["website_id"]); ?>','_blank');window.open(this.href,'_self');">
+                                    <?php echo $_coupon["name"];?>
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                  <?php $count = $count+1; ?>
+                  <?php endforeach; ?>
+          </div>
+        </div>
+        <?php endif; ?>
+      </div>
+    
+    
+    <?php $fbPage = $this->getFbPageUrl(); ?>
+    <?php $gplusPage = $this->getGooglePageUrl(); ?>
+    <?php $twitterPage = $this->getTwitterPageUrl(); ?>
+    
+    <?php if($fbPage || $gplusPage || $twitterPage): ?>
+    <div class="row">
+        <div class="social-home">
+            <div class="social-links">
+                <div class="social-header">
+                    <h3>We are Social!</h3>
+                    <p>Join our community for exculsive contest and exciting offers!</p>
+                </div>
+                <div class="social-content">
+                    <?php if($fbPage): ?>
+                    <div class="link">
+                    <a title="Join us on Facebook" rel="notfollow" href="<?php echo $fbPage; ?>"><div class="follow-fb">&nbsp;</div><span>Join us on Facebook</span></a>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <?php if($gplusPage): ?>  
+                    <div class="link">  
+                    <a title="Join us on Google+" rel="notfollow" href="<?php echo $gplusPage; ?>"><div class="follow-gplus">&nbsp;</div><span>Join us on Google+</span></a>
+                    </div>
+                    <?php endif; ?> 
+                    
+                    <?php if($twitterPage): ?>  
+                    <div class="link">  
+                    <a title="Follow us on Twitter" rel="notfollow" href="<?php echo $twitterPage; ?>"><div class="follow-twitter">&nbsp;</div><span>Follow us on Twitter</span></a>
+                    </div>
+                    <?php endif; ?> 
+                </div>
+            </div>
+            <div class="home-fb-like">
+            <div class="fb-like" data-href="<?php echo $this->getBaseHomeWebsiteUrl(); ?>" data-layout="standard" data-action="like" data-show-faces="false" data-share="false"></div>
+            <script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+            </div>
+        </div>
+     </div>
+     <?php endif; ?>
+     
+  <div class="row">
+        
+        <?php $block = $this->getHomePageFirstBlock(); ?>
+        <?php if($block): ?>
+            <div class="col-sm-4 home-content-block">
+                <div class="panel panel-default content-panel">   
+                    <div class="panel-heading">
+                      <h2 class="panel-title"><?php echo $block->title; ?></h2>
+                    </div>
+                    <div class="panel-body panel-row last">
+                      <div>
+                             <?php echo $block->content; ?>
+                      </div>
+                    </div> 
+                 </div>       
+            </div>
+        <?php endif; ?>
+        
+        <?php $block = $this->getHomePageSecondBlock(); ?>
+        <?php if($block): ?>
+            <div class="col-sm-4 home-content-block" >
+                <div class="panel panel-default content-panel">   
+                    <div class="panel-heading">
+                      <h2 class="panel-title"><?php echo $block->title; ?></h2>
+                    </div>
+                    <div class="panel-body panel-row last">
+                      <div>
+                             <?php echo $block->content; ?>
+                      </div>
+                    </div> 
+                 </div>       
+            </div>
+        <?php endif; ?>
+        
+        <?php $block = $this->getHomePageThirdBlock(); ?>
+        <?php if($block): ?>
+            <div class="col-sm-4 home-content-block">
+                <div class="panel panel-default content-panel">   
+                    <div class="panel-heading">
+                      <h2 class="panel-title"><?php echo $block->title; ?></h2>
+                    </div>
+                    <div class="panel-body panel-row last">
+                      <div>
+                             <?php echo $block->content; ?>
+                      </div>
+                    </div> 
+                 </div>       
+            </div>
+        <?php endif; ?>
+  </div>
+
+  <?php $websites = $this->getAllWebsites(); ?>
+  <?php if(count($websites)): ?>
+   <div class="row">
+        <div class="col-sm-12 home-stores">
+            <div class="home-stores-header">
+                <h3>Huge savings at 500+ brands and stores with our Coupons & Deals:</h3>
+            </div>
+            <div class="home-stores-content">
+                <ul>
+                    <?php foreach($websites as $_website): ?>
+                         <li>
+                            <?php $url = $this->baseUrl($_website->getURLKey()); ?>
+                            <a title="<?php echo ucfirst($_website->name); ?>" href="<?php echo $url; ?>"><?php echo ucfirst($_website->name); ?></a>
+                         </li>
+                    <?php endforeach; ?>
+                </ul>  
+            </div>
+        </div>
+     </div>
+    <?php endif; ?> 
+      
+
+<script type="text/javascript">                                                          
+    jQuery(document).ready(function()
+    {
+        jQuery('#searchHederForm').hide();
+        jQuery('.search-bar').hide();
+        
+        jQuery(".btn-coupon-popup").click(function(){
+            window.open(jQuery("#"+this.id).data("url"),'_blank');
+            window.open(jQuery("#"+this.id).data("redirectUrl"),'_self');
+        });
+    });
+</script>

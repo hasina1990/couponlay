@@ -1,0 +1,42 @@
+<form id="grid-search-form" action="<?php echo $this->getGridUrl()?>" method="post">  
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-admin">
+                        <?php echo sprintf($this->translate('Manage Coupons (Store : %s)'), ucfirst($this->getWebsite()->name));?>
+                    </h3>
+                </td>
+                <td class="form-buttons">
+                    <button onclick="coupon.setElement('main-container').setUseType('url').setURL('<?php echo $this->getBackUrl() ?>').loadPage();" type="button" title="<?php echo $this->translate('Back');?>" class="scalable back">
+                        <span><span><span>
+                        <?php echo $this->translate('Back');?>
+                        </span></span></span>
+                    </button>
+                    
+                    <button onclick="coupon.setElement('main-container').setUseType('url').setURL('<?php echo $this->getCreateUrl() ?>').loadPage();" type="button" title="<?php echo $this->translate('Add New Coupon');?>" class="scalable add">
+                        <span><span><span>
+                        <?php echo $this->translate('Add New Coupon');?>
+                        </span></span></span>
+                    </button>
+                    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="grid-list"></div>
+</form>
+<script>
+var coupon = new Ccc.Coupon();
+coupon.setObject('coupon');
+coupon.resetCheckedElements();
+coupon.setForm('grid-search-form');
+coupon.setUseType('url');
+coupon.setURL('<?php echo $this->getGridUrl()?>');
+if(coupon.getForm())
+{
+    coupon.loadPage();
+}
+</script>

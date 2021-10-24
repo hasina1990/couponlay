@@ -1,0 +1,58 @@
+<div class="navbar-inverse navbar-bottom footer-block">  
+    <div class="container footer" role="footer">
+        <?php
+              $footerOneTitle           =  $this->getFooterOneTitleConfig();
+              $footerOneDescription     =  $this->getFooterOneDescriptionConfig();
+              $footerTwoTitle           =  $this->getFooterTwoTitleConfig();
+              $footerTwoDescription     =  $this->getFooterTwoDescriptionConfig();
+              $footerThreeTitle         =  $this->getFooterThreeTitleConfig();
+              $footerThreeDescription   =  $this->getFooterThreeDescriptionConfig();
+        ?>
+        
+        <?php if($footerOneTitle || $footerOneDescription):?>
+        <div class="col-sm-4 footer-block">
+                <?php if($footerOneTitle):?>
+                <div class="heading">
+                 <?php echo $footerOneTitle; ?>
+                </div>
+                <?php endif; ?>
+                <?php if($footerOneDescription):?> 
+                  <div class="description">
+                         <?php echo $footerOneDescription; ?>
+                  </div> 
+                <?php endif; ?>  
+        </div>
+        <?php endif; ?>
+        
+        <?php if($footerTwoTitle || $footerTwoDescription):?>
+        <div class="col-sm-4 footer-block">
+                <?php if($footerTwoTitle):?>
+                <div class="heading">
+                 <?php echo $footerTwoTitle; ?>
+                </div>
+                <?php endif; ?>
+                <?php if($footerTwoDescription):?> 
+                  <div class="description">
+                         <?php echo $footerTwoDescription; ?>
+                  </div>
+                <?php endif; ?>  
+        </div>
+        <?php endif; ?>
+        
+        <?php if($footerThreeTitle || $footerThreeDescription):?>
+            <div class="col-sm-4 footer-block">
+                    <?php if($footerThreeTitle):?>
+                        <div class="heading">
+                         <?php echo $footerThreeTitle; ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if($footerThreeDescription):?> 
+                      <div class="description">
+                             <?php echo $footerThreeDescription; ?>
+                      </div>
+                    <?php endif; ?>  
+            </div>
+        <?php endif; ?>
+    </div>
+    <div class="copyright-text"><?php echo $this->getCopyRightConfig(); ?></div>  
+</div>

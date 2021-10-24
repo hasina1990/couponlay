@@ -1,0 +1,35 @@
+<form id="grid-search-form" action="<?php echo $this->getGridUrl()?>" method="post">  
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-period">
+                        <?php echo $this->translate('Manage Crons');?>
+                    </h3>
+                </td>
+                <td class="form-buttons">
+                    
+                    <button onclick="object.setElement('main-container').setUseType('url').setURL('<?php echo $this->getCreateUrl() ?>').loadPage();" type="button" title="<?php echo $this->translate('Create Cron');?>">
+                        <span><span><span>
+                        <?php echo $this->translate('Create Cron');?>
+                        </span></span></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="grid-list"></div>
+</form>
+<script>
+var object = new Ccc.Cron();
+object.resetCheckedElements();
+object.setForm('grid-search-form');
+object.setUseType('url');
+object.setURL('<?php echo $this->getGridUrl()?>');
+if(object.getForm())
+{
+    object.loadPage();
+}
+</script>

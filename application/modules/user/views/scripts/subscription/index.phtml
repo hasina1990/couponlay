@@ -1,0 +1,102 @@
+<div class="container theme-showcase subscription-page" role="main">
+  <div class="row">
+         <div class="col-sm-12">
+          <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h1 class="panel-title">Manage Your Email Subscription for <strong><i><?php echo $this->getUser()->email; ?></i></strong></h1>
+                </div>
+                
+
+                <div class="panel-body">
+                    <?php if($this->getUser()->website_id == "website"):?>
+                       <div class="content">
+                           You have successfully subscribed to all Store.Thank you for subscribing us. 
+                           you will receive latest working coupons and deals to your mailbox for all stores.
+                       </div>
+                    <?php else: ?>
+                        <div class="content">
+                           Subscribe stores to receive latest working coupons and deals to your mailbox.
+                       </div>
+                   <?php endif; ?>
+                        
+                    <?php $subscribedWebsites = $this->getSubscribedWebsites(); ?>
+                    <?php if(count($subscribedWebsites)): ?>
+                        <div class="subscription-shop-store">
+                            <ul>
+                            <?php foreach($subscribedWebsites as $_website): ?>
+                                 <li>
+                                    <div class="subscription-shop-store-name"><?php echo ucfirst($_website->name); ?></div>
+                                    <a title="Close" class="store-close" href="javascript:void(0);" id="<?php echo $_website->website_id; ?>">&nbsp;</a>
+                                 </li>
+                            <?php endforeach; ?>
+                            </ul>
+                         </div>
+                    <?php endif; ?>
+                    <div class="clear"></div>
+                    
+                    <div class="subscribe-user">
+                        <?php if($this->getUser()->website_id != "website"):?>
+                            <div class="subscribe-header">
+                                <h4>Subscribe to New Store</h4>
+                            </div>
+                        <?php endif; ?>
+                         
+                        <div class="subscribe-content">
+                            <form action="<?php echo $this->getSubscribeUserUrl(); ?>" name="frmnewslatter" id="frmnewslatter" method="post">
+                                <input name="user[email]" value = "<?php echo $this->getUser()->email; ?>" type="hidden">
+                                <input name="unsubsribefromall" id="unsubsribefromall" value="0" type="hidden">
+                                
+                                <?php if($this->getUser()->website_id != "website"):?>
+                                    <div class="subscribe-content-textbox">
+                                    <input class="form-control newslatter" name="user[store]" value="" id="store" placeholder="Start Typing" type="text">
+                                    <div id="store-validate" class="validate-element"></div>
+                                    </div>
+                                    
+                                    <div class="subscribe-content-button">
+                                        <button class="btn btn-primary btn-block" type="submit" name="submit" value="Subscribe">ADD</button>
+                                    </div>
+                                    
+                                    <div class="clear"></div>
+                                <?php endif; ?>
+                                <div class="subscribe-content-unsubcribe-button">
+                                    <button class="btn btn-primary btn-block" id="unsubscribe" type="button" name="unsubscribe" value="Unsubscribe Me from All Emails">Unsubscribe Me from All Emails</button>
+                               </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+
+<script type="text/javascript">
+    var newslater = new Ccc.NewsLatter();
+    newslater.setForm('frmnewslatter');
+    
+    jQuery(document).ready(function()
+    {
+        jQuery('#frmnewslatter').submit(function()
+        {
+            jQuery("#unsubsribefromall").val(0);
+            newslater.subscribeUserToStore();
+            return false;
+        });
+        
+        jQuery("#unsubscribe").click(function(){
+            jQuery("#unsubsribefromall").val("all");
+            newslater.subscribeUserToStore();
+            return false;
+        });
+                
+        jQuery('#store').autocomplete({
+              source: <?php echo json_encode($this->getAllWebsites()); ?>
+        });
+        
+        jQuery(".store-close").click(function(){
+            jQuery("#unsubsribefromall").val(this.id);
+            newslater.subscribeUserToStore();
+            return false;
+        });  
+    });
+</script>

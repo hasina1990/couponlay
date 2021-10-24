@@ -1,0 +1,33 @@
+<?php 
+    $object = $this->getObject();
+?> 
+
+<div class="v-space"></div>
+<div class="pagination">
+    <div class="page">
+        <?php if($this->pageCount > 1): ?>
+            <?php if(isset($this->previous)): ?>
+            <a class="link selected" href="javascript:void(0);" onclick="<?php echo $object; ?>.setUseType('url').setFormURL('<?PHP echo $this->url(array("module"=>"property", "controller"=>"index", "action"=>"grid", "page"=>$this->previous)); ?>').loadPage();"><?php echo $this->translate('Previous')?></a>        
+            <?php else: ?>
+            <a class="link disable" href="javascript:void(0);"><?php echo $this->translate('Previous')?></a>
+            <?php endif; ?>
+        
+            <?php foreach($this->pagesInRange as $page) : if($page==$this->current) : ?>
+                <a class="link selected" href="javascript:void(0);"><?php echo $this->escape($page); ?></a>
+
+            <?php else: ?>
+
+                <a class="link disable" href="javascript:void(0);" onclick="<?php echo $object; ?>.setUseType('url').setFormURL('<?PHP echo $this->url(array("module"=>"property", "controller"=>"index", "action"=>"grid", "page"=>$page)); ?>').loadPage();"><?php echo $this->escape($page); ?></a>
+            <?php   endif; endforeach; ?>
+        
+        
+            <?php if(isset($this->next)): ?>
+                <a class="link selected" href="javascript:void(0);" onclick="<?php echo $object; ?>.setUseType('url').setFormURL('<?PHP echo $this->url(array("module"=>"property", "controller"=>"index", "action"=>"grid", "page"=>$this->next)); ?>').loadPage();"><?php echo $this->translate('Next')?></a>
+            <?php else: ?>
+                <a class="link disable" href="javascript:void(0);"><?php echo $this->translate('Next')?></a>
+            <?php endif; ?>
+        <div class="clear"></div>
+        <?php endif; ?>
+    </div>
+    <div class="clear"></div>
+</div>

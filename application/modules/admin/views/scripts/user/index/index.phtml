@@ -1,0 +1,28 @@
+<form id="grid-search-form" action="<?php echo $this->getGridUrl()?>" method="post">  
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-admin">
+                        <?php echo $this->translate('Manage Subscribed Users');?>
+                    </h3>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="grid-list"></div>
+</form>
+<script>
+var user = new Ccc.User();
+user.setObject('user');
+user.resetCheckedElements();
+user.setForm('grid-search-form');
+user.setUseType('url');
+user.setURL('<?php echo $this->getGridUrl()?>');
+if(user.getForm())
+{
+    user.loadPage();
+}
+</script>

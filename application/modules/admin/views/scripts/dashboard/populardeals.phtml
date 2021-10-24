@@ -1,0 +1,92 @@
+<?php 
+$coupons = $this->getCollection();
+?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-admin">
+                        <?php echo $this->translate('Popular Deals');?>
+                    </h3>
+                </td>
+                <td class="form-buttons">
+<a href="javascript:void(0);" onclick="dashboard.setElement('main-container').setUseType('url').setURL('<?php echo $this->getManageWebsiteUrl() ?>').loadPage();">
+View All (<?php echo $this->getTotalCouponCount(); ?>)</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <div>
+        <div class="grid">
+            <div class="hor-scroll">
+                <table class="data" id="periodGrid_table" cellspacing="0">
+                    <colgroup>
+                        <col width="50">
+                        <col width="150">
+                        <col width="">
+                        <col width="50">
+                        <col width="50">
+                        <col width="50">
+                        <col width="50"> 
+                        <col width="200">
+                    </colgroup>
+                    <thead>
+                        <tr class="headings">
+                            <th class="no-link">
+                                <span class="nobr">ID</span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr">Store Name</span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr">Coupon Title</span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr">Code</span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr">Discount</span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr">Is Expired</span>
+                            </th> 
+                            <th class="no-link">
+                                <span class="nobr">View Count</span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr">Date</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if(count($coupons)): ?>
+                            <?php $cnt = 0; ?>
+                            <?php foreach($coupons as $_coupon): ?>
+                            <tr class="<?php if(($cnt+1)%2==0): ?>odd<?php else:?>even<?php endif; ?> pointer">
+                                <td class="a-center"><?php echo $_coupon->coupon_id; ?></td>
+                                <td class="a-left "><?php echo $_coupon->website_name; ?></td>
+                                <td class="a-left "><?php echo $this->escape($_coupon->name); ?></td>
+                                <td class="a-left "><?php echo $this->escape($_coupon->code); ?></td>   
+                                <td class="a-left "><?php echo $this->escape($_coupon->discount); ?></td>
+                                <td class="a-left "><?php echo $this->getIsExpired($_coupon); ?></td>   
+                                <td class="a-left "><?php echo (int)$_coupon->view_count; ?></td> 
+                                <td class="a-center "><?php echo $this->date()->getFormattedDateView($_coupon->created_date); ?></td>
+                            </tr>
+                            <?php $cnt++; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td class="grid-column center no-record" colspan="14">
+                                <?php echo $this->translate('Deals are not available.');?>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>            
+            </div>
+       </div>    
+    </div>
+</div>

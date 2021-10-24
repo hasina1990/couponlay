@@ -1,0 +1,64 @@
+<?php $object = Zend_Controller_Front::getInstance();
+      $object = $object->getRequest()->getParam('obj');
+?>
+<div class="pager">
+    <table>
+        <tr>
+	        <?php if($this->pageCount > 1): ?>
+	            <td><span><?php echo $this->translate('Page:')?>&nbsp;</span></td>
+	            <?php if(isset($this->previous)): ?>
+	                <td align="center"><a class="link active" href="javascript:void(0);" onclick="<?php echo $object; ?>.setFormURL('<?PHP echo $this->url(array("page"=>$this->previous)); ?>').loadPage();"><?php echo $this->translate('Prev')?></a></td>
+	            <?php else: ?>
+	                <td align="center"><a class="link inactive" href="javascript:void(0);"><?php echo $this->translate('Prev')?></a></td>
+	            <?php endif; ?>	
+	            <td align="center">
+	                <?php		
+	                foreach($this->pagesInRange as $page)
+	                {
+		                if($page==$this->current)
+		                {
+		                    ?>
+		                    <a class="link inactive" href="javascript:void(0);"><?php echo $this->escape($page); ?></a>
+		                    <?php
+		                }
+		                else
+		                {
+		                    ?>
+		                    <a class="link active" href="javascript:void(0);" onclick="<?php echo $object; ?>.setFormURL('<?PHP echo $this->url(array("page"=>$page)); ?>').loadPage();"><?php echo $this->escape($page); ?></a>
+		                    <?php
+		                }
+	                }
+	                ?>
+	        </td>
+			        
+	            <?php if(isset($this->next)): ?>
+	                <td align="center"><a class="link active" href="javascript:void(0);" onclick="<?php echo $object; ?>.setFormURL('<?PHP echo $this->url(array("page"=>$this->next)); ?>').loadPage();"><?php echo $this->translate('Next')?></a></td>
+	            <?php else: ?>
+	                <td align="center"><a class="link inactive" href="javascript:void(0);"><?php echo $this->translate('Next')?></a></td>
+	            <?php endif; ?>				
+	            <td><span style="display:block; width:1px; height:20px; background:#999999">&nbsp;</span></td>
+	            <td> <?php echo $this->current; ?> <?php echo $this->translate('of')?> <?php echo $this->escape($this->pageCount); ?> <?php echo $this->translate('pages')?> </td>
+	            <td><span style="display:block; width:1px; height:20px; background:#999999">&nbsp;</span></td>
+	            <td><span><?php echo $this->translate('Records:') ?>&nbsp;</span><?php echo $this->escape($this->firstItemNumber); ?> - <?php echo $this->escape($this->lastItemNumber); ?> <?php echo $this->translate('of')?> <?php echo $this->totalItemCount; ?></td>
+                <!--<input type="hidden" type="text" name="totalItemCount" id="totalItemCount" value="<?php echo $this->totalItemCount; ?>"/>-->
+	            <td><span style="display:block; width:1px; height:20px; background:#999999">&nbsp;</span></td>		
+	        <?php endif; ?>
+            <?php if($this->pageCount > 0): ?>
+	            <td><span><?php echo $this->translate('Per Page:')?>&nbsp;</span>
+		            <?php 
+		            if($optionsTmp = Ccc::getModel('admin/admin')->getRecordPerPageOption())
+		            {
+			            foreach($optionsTmp as $key => $val)
+			            {
+				            $options[$this->url(array("perpage"=>$key))] = $val;
+			            }
+			            echo $this->formSelect('perpage', $this->url(array("perpage"=>Ccc::getModel('admin/admin')->getRecordPerPage())), array('class'=>'input-select', 'style'=>'width:50px', 'onchange'=>"$object.setFormURL(this.value).loadPage();"), $options); 
+		            }	
+		            ?>
+	            </td>
+            <?php endif; ?>
+        </tr>
+    </table>
+</div>   
+
+<input type="hidden" type="text" name="totalItemCount" id="totalItemCount" value="<?php echo $this->totalItemCount;  ?>"/>

@@ -1,0 +1,51 @@
+<?php $collection = $this->getCollection();
+$object = $this->getObject();
+?>
+<input type="hidden" name="selectedIds" id="selectedIds" value=""/>
+<div>
+    <div>
+        <div class="grid">
+            <div class="hor-scroll">
+                <table class="data" id="periodGrid_table" cellspacing="0">
+                    <colgroup>
+                        <col class="a-center" width="10">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr class="headings">
+                            <th class="no-link">
+                                <span class="nobr">&nbsp;</span>
+                            </th>
+                            <th class="no-link last">
+                                <span class="nobr"><?php echo $this->translate('Process'); ?></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if(count($collection)): ?>
+                            <?php $cnt = 0; ?>
+                            <?php foreach($collection as $key=>$_item): ?>
+                                <tr class="<?php if(($cnt+1)%2==0): ?>odd<?php else:?>even<?php endif; ?> pointer" id="data-ele-<?php echo $key+1 ?>" <?php if($cnt!=0): ?>style="display:none;"<?php endif; ?>>
+                                    <td class="a-center"><img src="<?php echo $this->getProcessImageUrl()?>" height="20" width="20" alt="processing"/></td>
+                                    <td class="a-left "><div id='data'><?php echo $this->translate('Processing...');?></div></td>
+                                </tr>
+                            <?php $cnt++; ?>
+                            <?php endforeach; ?>
+                        <?php else:  ?>
+                            <tr>
+                                <td class="grid-column center no-record" colspan="5">
+                                <?php echo $this->translate('No process available.');?>
+                                </td>
+                            </tr>
+                        <?php endif;  ?>
+                    </tbody>
+                </table>            
+            </div>
+       </div>
+    </div>
+</div>
+
+<script>
+    <?php echo $object ?>.setSuccessImage('<?php echo $this->getSuccessImageUrl()?>').setErrorImage('<?php echo $this->getErrorImageUrl()?>').setProcessingImage('<?php echo $this->getProcessImageUrl()?>');
+    <?php echo $object ?>.setUrls('<?php echo json_encode($collection) ?>').startProcessing();
+</script>

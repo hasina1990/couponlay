@@ -1,0 +1,134 @@
+<?php 
+    $block = $this->getBlock(); 
+    $object = $this->getObject();    
+?>
+<div class="columns ">
+
+    <div class="side-col" id="page:left">
+        <h3><?php echo $this->translate('Manage Blocks'); ?></h3>
+        <ul id="page_tabs" class="tabs">
+            <li>
+                <a href="javascript:void(0);" class="tabHeader tab-item-link" name="main_section" title="<?php echo $this->translate('Block Information'); ?>" id="html">
+                    <span><?php echo $this->translate('Block Information'); ?></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- TABS START -->
+
+    <div class="main-col" id="content">
+        <div class="main-col-inner">
+            <div id="messages"></div>
+            <div class="content-header">
+                <h3 class="icon-head head-admin-page">
+                    <?php if((int)$block->block_id): ?>
+                        <?php echo $this->translate('Edit Block'); ?>
+                        <?php else: ?>
+                        <?php echo $this->translate('Add Block'); ?>
+                        <?php endif; ?>
+                </h3>
+
+                <p class="form-buttons">
+                    <?php echo $this->formButton('cancel', $this->translate('Cancel'), array('class'=>'scalable', 'onclick'=>"$object.setUseType('url').setElement('main-container').setURL('".$this->getIndexJsonUrl()."').loadPage();")); ?>
+                    <?php echo $this->formButton('submit', $this->translate('Save'), array('class'=>'scalable save', 'onclick'=>"$object.setForm('block_frm').setElement('main-container').setFormURL('".$this->getSaveUrl()."').saveBlock(); return false;  ")); ?>
+                </p>
+            </div>
+
+            <div class="entry-edit">
+                <form id="block_frm" name='block_frm' action="<?php echo $this->url(array('action'=>'save')); ?>" method="post">
+                    <div class="tabContent" style="display: none;">
+                        <div class="entry-edit">
+                            <div class="entry-edit-head">
+                                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->translate('Block Information'); ?></h4>
+                                <div class="form-buttons"></div>
+                            </div>
+                            <div class="fieldset " id="page_base_fieldset">
+                                <div class="hor-scroll">
+                                    <table class="form-list" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Block Name'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('block[name]',$this->escape($block->name), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="name" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Block Title'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('block[title]',$this->escape($block->title), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="title" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Content'); ?>:
+                                                    </label>
+                                                </td>
+                                                <td class="value" style="width: 100%;">
+                                                     
+                                                    <?php echo $this->FormTextarea('block[content]', $block->content, array('id'=>'block-content', 'class'=>'editor', "style"=>"width:100%;")) ;?>
+                                                    <div id="content" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Active'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormSelect('block[is_enabled]',$block->is_enabled, array('class'=>'input-select'),$this->getIsEnabledOptions());?>
+                                                    <div id="is_enabled" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- TABS END -->
+</div>
+
+<script>
+var tabObject = new Core.Tab();
+jQuery(document).ready(function()
+{
+    tabObject.setupTab();
+    
+    jQuery("#block-content").redactor({
+            imageUpload: '<?php echo $this->url(array("module"=>"core", "controller"=>"index", "action"=>"upload-image")); ?>'
+    });
+});
+</script>

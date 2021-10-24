@@ -1,0 +1,43 @@
+<div id="message" class="messages">
+    <ul class="success"></ul>
+    <ul class="notice"></ul>
+    <ul class="error"></ul>
+</div>
+
+<?php $messageObject = $this->getSuccess(); ?>
+<?php if($messageObject->getMessages()): ?>
+<script>
+jQuery(document).ready(function()
+{
+    MESSAGE.setMessageType('success').setMessage('<?php echo json_encode($messageObject->getMessages()); ?>').show();
+});
+</script>
+
+<?php $messageObject->clearMessages(); ?>
+<?php endif; ?>
+<?php $messageObject = $this->getNotice(); ?>
+<?php if($messageObject->getMessages()): ?>
+<script>
+jQuery(document).ready(function()
+{
+    MESSAGE.setMessageType('notice').setMessage('<?php echo json_encode($messageObject->getMessages()); ?>').show();
+});
+</script>
+<?php $messageObject->clearMessages(); ?>
+<?php endif; ?>
+
+
+<?php $messageObject = $this->getError(); ?>
+<?php if($messageObject->getMessages()): ?>
+<script>
+jQuery(document).ready(function()
+{
+    MESSAGE.setMessageType('error').setMessage('<?php echo json_encode($messageObject->getMessages()); ?>').show();
+});
+</script>
+<?php $messageObject->clearMessages(); ?>
+<?php endif; ?>
+
+<script>
+var MESSAGE = new Core.Message();
+</script>

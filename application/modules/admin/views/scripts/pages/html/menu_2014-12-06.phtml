@@ -1,0 +1,177 @@
+<div class="nav-bar">
+    <!-- menu start -->
+    <ul id="nav">
+        <li class="dashboard level0 active">
+            <a href="<?php echo $this->baseUrl('admin/dashboard'); ?>" class="">
+                <span><?php echo $this->translate('Dashboard'); ?></span>
+            </a>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="pages level0 parent">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('Pages'); ?></span>
+            </a>
+            <ul>
+                <li class="last level1">
+                    <a href="<?php echo $this->baseUrl('admin/page_index'); ?>">
+                        <span><?php echo $this->translate('Manage Pages'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="category level0 parent">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('Categories'); ?></span>
+            </a>
+            <ul>
+                <li class=" last level1">
+                    <a href="<?php echo $this->baseUrl('admin/category_index'); ?>">
+                        <span><?php echo $this->translate('Manage Categories'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="website level0 parent">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('Stores'); ?></span>
+            </a>
+            <ul>
+                <li class=" last level1">
+                    <a href="<?php echo $this->baseUrl('admin/website_index'); ?>">
+                        <span><?php echo $this->translate('Manage Stores'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="coupon level0 parent">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('Coupons'); ?></span>
+            </a>
+            <ul>
+                <li class=" last level1">
+                    <a href="<?php echo $this->baseUrl('admin/coupon_index'); ?>">
+                        <span><?php echo $this->translate('Manage Coupons'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="tag level0 parent">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('Tags'); ?></span>
+            </a>
+            <ul>
+                <li class=" last level1">
+                    <a href="<?php echo $this->baseUrl('admin/tag_index'); ?>">
+                        <span><?php echo $this->translate('Manage Tags'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="newslatter level0 parent">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('Newsletter'); ?></span>
+            </a>
+            <ul>
+                <li class=" last level1">
+                    <a href="<?php echo $this->baseUrl('admin/user_index'); ?>">
+                        <span><?php echo $this->translate('Manage Subscribed Users'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="system level0 parent">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('Cofiguration'); ?></span>
+            </a>
+            <ul>
+                <li class="level1">
+                    <a href="<?php echo $this->baseUrl('admin/home_index'); ?>">
+                        <span><?php echo $this->translate('Manage General Settings'); ?></span>
+                    </a>
+                </li>
+                <li class=" level1 ">
+                    <a href="<?php echo $this->baseUrl('admin/index'); ?>" class="">
+                        <span><?php echo $this->translate('Manage Accounts'); ?></span>
+                    </a>
+                </li>
+                <li class="level1">
+                    <a href="<?php echo $this->baseUrl('admin/home_banner'); ?>">
+                        <span><?php echo $this->translate('Manage Banners'); ?></span>
+                    </a>
+                </li>
+                <li class="level1">
+                    <a href="<?php echo $this->baseUrl('admin/home_advertisement'); ?>">
+                        <span><?php echo $this->translate('Manage Advertisements'); ?></span>
+                    </a>
+                </li>
+                <li class="level1">
+                    <a href="<?php echo $this->baseUrl('admin/block_index'); ?>">
+                        <span><?php echo $this->translate('Manage Blocks'); ?></span>
+                    </a>
+                </li>
+                <li class="level1">
+                    <a href="<?php echo $this->baseUrl('admin/menu_index'); ?>">
+                        <span><?php echo $this->translate('Manage Menus'); ?></span>
+                    </a>
+                </li>
+                <li class="last level1">
+                    <a href="<?php echo $this->baseUrl('admin/block_footer'); ?>">
+                        <span><?php echo $this->translate('Manage Footers'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <!-- menu end -->
+</div>
+<script>
+    jQuery(document).ready(function()
+    {
+        jQuery(".level0").each(function(index, object)
+        {
+            if(jQuery(object).hasClass('<?php echo $this->getActiveTab(); ?>'))
+                {
+                jQuery(this).addClass('active');
+            }
+            else
+                {
+                jQuery(this).removeClass('active');
+            }	
+        });
+    });
+</script>  
+<?php
+    //Dynamic Menu using resource module
+    /*<div class="nav-bar">
+    <?php
+
+    try
+    {
+    $this->getMenu();
+    }
+    catch(Exception $e)
+    {
+    echo $e->getMessage();
+    }
+    ?>
+    </div>
+
+    <script>
+    jQuery(document).ready(function()
+    {
+    jQuery(".level0").each(function(index, object)
+    {
+    if(jQuery(object).hasClass('<?php echo $this->getActiveTab(); ?>'))
+    {
+    jQuery(this).addClass('active');
+    }
+    else
+    {
+    jQuery(this).removeClass('active');
+    }    
+    });
+    });
+    </script>
+    */
+?>
+
+

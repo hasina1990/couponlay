@@ -1,0 +1,114 @@
+<?php 
+    $banner = $this->getBanner(); 
+    $object = $this->getObject();    
+?>
+<div class="columns ">
+
+    <div class="side-col" id="page:left">
+        <h3><?php echo $this->translate('Manage Advertisements'); ?></h3>
+        <ul id="page_tabs" class="tabs">
+            <li>
+                <a href="javascript:void(0);" class="tabHeader tab-item-link" name="main_section" title="<?php echo $this->translate('Advertisement Information'); ?>" id="html">
+                    <span><?php echo $this->translate('Advertisement Information'); ?></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- TABS START -->
+
+    <div class="main-col" id="content">
+        <div class="main-col-inner">
+            <div id="messages"></div>
+            <div class="content-header">
+                <h3 class="icon-head head-admin-page">
+                    <?php if((int)$category->category_id): ?>
+                        <?php echo $this->translate('Edit Advertisement'); ?>
+                        <?php else: ?>
+                        <?php echo $this->translate('Add Advertisement'); ?>
+                        <?php endif; ?>
+                </h3>
+
+                <p class="form-buttons">
+                    <?php echo $this->formButton('cancel', $this->translate('Cancel'), array('class'=>'scalable', 'onclick'=>"$object.setUseType('url').setElement('main-container').setURL('".$this->getIndexJsonUrl()."').loadPage();")); ?>
+                    <?php echo $this->formButton('submit', $this->translate('Save'), array('class'=>'scalable save', 'onclick'=>"$object.setForm('banner_frm').setElement('main-container').setFormURL('".$this->getSaveUrl()."').saveBanner(); return false;  ")); ?>
+                </p>
+            </div>
+
+            <div class="entry-edit">
+                <form id="banner_frm" name='banner_frm' action="<?php echo $this->url(array('action'=>'save')); ?>" method="post" enctype="multipart/form-data">
+                    <div class="tabContent" style="display: none;">
+                        <div class="entry-edit">
+                            <div class="entry-edit-head">
+                                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->translate('Advertisement Information'); ?></h4>
+                                <div class="form-buttons"></div>
+                            </div>
+                            <div class="fieldset " id="page_base_fieldset">
+                                <div class="hor-scroll">
+                                    <table class="form-list" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Image'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <input type="file" name="image" id="image"> 
+                                                    <div id="image" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Name'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormText('banner[name]',$this->escape($banner->name), array('class'=>'input-text', 'maxlength'=>255)) ;?>
+                                                    <div id="name" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('Is Enabled'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormSelect('banner[is_enabled]',$banner->is_enabled, array('class'=>'input-select'),$this->getIsEnabledOptions());?>
+                                                    <div id="is_enabled" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- TABS END -->
+</div>
+
+<script>
+var tabObject = new Core.Tab();
+jQuery(document).ready(function()
+{
+    tabObject.setupTab();
+});
+</script>

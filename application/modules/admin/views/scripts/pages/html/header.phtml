@@ -1,0 +1,22 @@
+<div class="header-top">
+    <a href="<?php echo $this->baseUrl('admin/dashboard'); ?>">
+        <img src="<?php echo $this->baseUrl('skin/admin/images/logo.png');?>" alt="Website Logo" class="logo">
+    </a>
+    <div class="header-right">
+        <p class="super">
+            <?php
+                echo Ccc::getModel('admin/admin')->getUsername();
+            ?>
+            <span class="separator">|</span>
+            <?php echo date('l, d F Y'); ?>
+            <span class="separator">|</span>
+            <a href="<?php echo $this->getLogoutUrl() ?>" class="link-logout">Log Out</a>
+        </p>
+    </div>
+</div>
+
+<div class="clear"></div>
+
+<!-- dailog schedule start-->
+<div id="schedule-dialog-box" title="<?php echo $this->translate('Comment'); ?>"></div>
+<div id="comment-dialog-box" title="<?php echo $this->translate('Comment'); ?>"></div>

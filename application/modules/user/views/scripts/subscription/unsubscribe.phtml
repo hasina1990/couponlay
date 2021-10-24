@@ -1,0 +1,55 @@
+<div class="container theme-showcase subscription-page" role="main">
+  <div class="row">
+         <div class="col-sm-12">
+          <div class="panel panel-default">
+                <div class="panel-heading">
+                      <h1 class="panel-title">Unsubscribe<?php if($this->isStoreUnSubscription()): echo " from ".ucfirst(Ccc::getModel("user/session")->getSession("subscribe_website")->name)." store"; endif; ?></h1>
+                    </div>
+                    
+                <div class="panel-body">
+                    <?php if($this->isStoreUnSubscription()):?>
+                       <div class="content">
+                            Do you want to stop receiving information about coupons and promos from the <?php echo ucfirst(Ccc::getModel("user/session")->getSession("subscribe_website")->name); ?> store?
+                       </div>
+                    <?php else: ?>
+                        <div class="content">
+                           Do you want to stop receiving information about coupons and promos from the online shops?
+                       </div>
+                   <?php endif; ?>
+                                         
+                    <div class="subscribe-user">
+                        <div class="subscribe-content">
+                            <form action="<?php echo $this->getSubscribeUserUrl(); ?>" name="frmnewslatter" id="frmnewslatter" method="post">
+                                <input name="user[email]" value = "<?php echo $this->getUser()->email; ?>" type="hidden">
+                                <input name="unsubsribefromall" id="unsubsribefromall" value="<?php echo $this->getWebsiteId(); ?>" type="hidden">
+                                <p>
+                                <button class="btn btn-primary" id="home" type="button" name="button" value="I'll stay with you"><?php if($this->isStoreUnSubscription()):?>I'll stay<?php else: ?>I'll stay with you<?php endif; ?></button>   
+                                <button class="btn btn-primary" id="unsubscribe" type="submit" name="unsubscribe" value="I want to unsubscribe">I want to unsubscribe</button>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+
+<script type="text/javascript">
+    var newslater = new Ccc.NewsLatter();
+    newslater.setForm('frmnewslatter');
+    
+    jQuery(document).ready(function()
+    {
+        jQuery('#frmnewslatter').submit(function()
+        {
+            newslater.subscribeUserToStore();
+            return false;
+        });
+        
+        jQuery("#home").click(function(){
+            window.location.href = '<?php echo $this->baseUrl(); ?>';
+        });
+        
+    });
+</script>

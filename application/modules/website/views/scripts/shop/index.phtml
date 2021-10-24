@@ -1,0 +1,107 @@
+  <div class="row">
+         <div class="col-sm-12">
+          <div class="panel panel-default" style="height: auto;">
+                <div class="panel-heading">
+                  <h1 class="panel-title">Browse All Stores</h1>
+                </div>
+            
+                 <div class="store-alphabet-list-store-page">
+                    <ul>
+                        <?php $letters = range('A', 'Z'); ?>
+                        <?php foreach($letters as $_letter): ?>
+                            <li><p><a title="<?php echo $_letter; ?>" href="<?php echo $this->baseUrl("stores/".strtolower($_letter)); ?>"><?php echo $_letter; ?></a></p></li>
+                        <?php endforeach; ?>
+                        <li><p><a title="<?php echo "0-9"; ?>" href="<?php echo $this->baseUrl("stores/0-9"); ?>"><?php echo "0-9"; ?></a></p></li>    
+                    </ul>
+                </div>
+            
+            <?php if($startingCharacter = $this->isLetterSelected()): ?>
+                
+                <?php $websiteByLetter = $this->getWebsites($startingCharacter); ?>
+                
+                <div class="shop-store">
+                    <div class="panel-body panel-row shop-list">
+                      <div>
+                        <h2><div class="store-letter-text"><?php echo ucfirst($startingCharacter); ?></div></h2>
+                      </div>
+                    </div>
+                    <?php if(count($websiteByLetter)): ?> 
+                    <ul>
+                        <?php foreach($websiteByLetter as $_website): ?>
+                             <li>
+                                <div>
+                                    <?php $url = $this->baseUrl($_website->getURLKey()); ?>
+                                    <a title="<?php echo ucfirst($_website->name); ?>" href="<?php echo $url; ?>">
+        <img src="<?php echo Ccc::getModel("website/uploader")->setWebsite($_website)->getIconImageUrl(); ?>" alt="<?php echo basename(Ccc::getModel("website/uploader")->setWebsite($_website)->getIconImageUrl()); ?>" class="shop-store-icon" >
+                                    </a>
+                                    <div class="shop-store-name"><p><a title="<?php echo ucfirst($_website->name); ?>" href="<?php echo $url; ?>"><?php echo ucfirst($_website->name); ?></a></p></div>
+                                </div>
+                             </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <?php else: ?>
+                    <p style="margin-left: 5%;">There are no Stores matching Selection.</p>
+                     <?php endif; ?> 
+               </div>
+               
+                
+            <?php else : ?>
+                <?php $websiteByLetter = $this->getWebsites("0-9"); ?>
+                <?php if(count($websiteByLetter)): ?>
+                <div class="shop-store">
+                    <div class="panel-body panel-row shop-list">
+                      <div>
+                        <h2><div class="store-letter-text"><?php echo "0-9"; ?></div></h2>
+                      </div>
+                    </div>
+                    
+                    <ul>
+                        <?php foreach($websiteByLetter as $_website): ?>
+                             <li>
+                                <div>
+                                    <?php $url = $this->baseUrl($_website->getURLKey()); ?>
+                                    <a title="<?php echo ucfirst($_website->name); ?>" href="<?php echo $url; ?>">
+        <img src="<?php echo Ccc::getModel("website/uploader")->setWebsite($_website)->getIconImageUrl(); ?>" src="<?php echo basename(Ccc::getModel("website/uploader")->setWebsite($_website)->getIconImageUrl()); ?>" class="shop-store-icon" >
+                                    </a>
+                                    <div class="shop-store-name"><p><a title="<?php echo ucfirst($_website->name); ?>" href="<?php echo $url; ?>"><?php echo ucfirst($_website->name); ?></a></p></div>
+                                </div>
+                             </li>
+                        <?php endforeach; ?>
+                    </ul>
+               </div>
+                <?php endif; ?>
+                
+                <?php $letters = range('A', 'Z'); ?>
+                <?php foreach($letters as $_letter): ?>
+                    <?php $websiteByLetter = $this->getWebsites($_letter); ?>
+                    <?php if(count($websiteByLetter)): ?>
+                        
+                        <div class="shop-store">
+                            <div class="panel-body panel-row shop-list">
+                              <div>
+                                <h2 class="store-letter-text"><div class="store-letter-text"><?php echo $_letter; ?></div></h2>
+                              </div>
+                            </div>
+                            
+                            <ul>
+                                <?php foreach($websiteByLetter as $_website): ?>
+                                     <li>
+                                        <div>
+                                            <?php $url = $this->baseUrl($_website->getURLKey()); ?>
+                                            <a title="<?php echo ucfirst($_website->name); ?>" href="<?php echo $url; ?>">
+                <img src="<?php echo Ccc::getModel("website/uploader")->setWebsite($_website)->getIconImageUrl(); ?>" alt="<?php echo basename(Ccc::getModel("website/uploader")->setWebsite($_website)->getIconImageUrl()); ?>" class="shop-store-icon" >
+                                            </a>
+                                            <div class="shop-store-name"><p><a title="<?php echo ucfirst($_website->name); ?>" href="<?php echo $url; ?>"><?php echo ucfirst($_website->name); ?></a></p></div>
+                                        </div>
+                                     </li>
+                                <?php endforeach; ?>
+                            </ul>
+                       </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                    
+            <?php endif; ?>
+            <div class="clear"></div>
+            </div>
+        </div>
+    </div>  

@@ -1,0 +1,81 @@
+<?php $menuBlock = Ccc::getBlock("admin/pages_html_menu"); ?>
+<div class="nav-bar">
+    <!-- menu start -->
+    <ul id="nav">
+        <li class="dashboard level0 active">
+            <a href="<?php echo $this->baseUrl('admin/dashboard'); ?>" class="">
+                <span><?php echo $this->translate('Dashboard'); ?></span>
+            </a>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="user level0 parent">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('User'); ?></span>
+            </a>
+            <ul>
+                <li class=" level1">
+                    <a href="<?php echo $this->baseUrl('admin/user_index'); ?>" class="">
+                        <span><?php echo $this->translate('Manage Users'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="filelist level0 parent">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('File List'); ?></span>
+            </a>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="system level0 parent">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('System'); ?></span>
+            </a>
+            <ul>
+                <li class=" level1">
+                    <a href="<?php echo $this->baseUrl('admin/admin_index'); ?>" class="">
+                        <span><?php echo $this->translate('Manage Admins'); ?></span>
+                    </a>
+                </li>
+                <li class=" level1">
+                    <a href="<?php echo $this->baseUrl('admin/cache_index'); ?>" class="">
+                        <span><?php echo $this->translate('Manage Caches'); ?></span>
+                    </a>
+                </li>
+                <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="level0 parent">
+                    <li class=" level1">
+                        <a href="<?php echo $this->baseUrl('admin/system_config'); ?>" class="">
+                            <span><?php echo $this->translate('Manage Configs'); ?></span>
+                        </a>
+                    </li>
+                </li>
+                <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="level0 parent">
+                    <a href="#" onclick="return false" class="">
+                        <span><?php echo $this->translate('Database'); ?></span>
+                    </a>
+                    <ul>
+                        <li class=" level1">
+                            <a href="<?php echo $this->baseUrl('admin/sql'); ?>" class="">
+                                <span><?php echo $this->translate('Upload SQL File'); ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>                
+            </ul>
+        </li>
+    </ul>
+    <!-- menu end -->
+</div>
+<script>
+jQuery(document).ready(function()
+{
+	jQuery(".level0").each(function(index, object)
+	{
+		if(jQuery(object).hasClass('<?php echo $menuBlock->getActiveTab(); ?>'))
+		{
+			jQuery(this).addClass('active');
+		}
+		else
+		{
+			jQuery(this).removeClass('active');
+		}	
+	});
+});
+</script>

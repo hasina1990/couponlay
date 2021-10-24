@@ -1,0 +1,35 @@
+<form id="grid-search-form" action="<?php echo $this->getGridUrl()?>" method="post">  
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-admin">
+                        <?php echo $this->translate('Manage Blocks');?>
+                    </h3>
+                </td>
+                <td class="form-buttons">
+                    <button onclick="block.setElement('main-container').setUseType('url').setURL('<?php echo $this->getCreateUrl() ?>').loadPage();" type="button" title="<?php echo $this->translate('Add New Block');?>" class="scalable add">
+                        <span><span><span>
+                        <?php echo $this->translate('Add New Block');?>
+                        </span></span></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="grid-list"></div>
+</form>
+<script>
+var block = new Ccc.Block();
+block.setObject('block');
+block.resetCheckedElements();
+block.setForm('grid-search-form');
+block.setUseType('url');
+block.setURL('<?php echo $this->getGridUrl()?>');
+if(block.getForm())
+{
+    block.loadPage();
+}
+</script>

@@ -1,0 +1,30 @@
+<?php $header = Ccc::getBlock("user/pages_html_header"); ?>
+<div class="landingpage_main">
+    <div class="main_logo">
+        <h1>Search results for <?php echo $this->query; ?></h1>
+   </div>
+    <div class="errorpage">
+        <h3>No records found.</h3>
+        <dl>
+            <dt>The store you requested was not found on this server.</dt>
+            <dd>
+                <ul class="disc">
+                    <li>Sorry, We did not find what you arelooking for..</li>
+                </ul>
+            </dd>
+        </dl>
+        <br>
+        <dl>
+            <dt>What can you do?</dt>
+            <dd>There are many ways you can search Exculsive Coupons and Deals on <?php echo ucfirst($header->getWebsiteName()); ?>.</dd>
+            <dd>
+                <ul class="disc">
+                    <li>Go to the <a title="Home page" href="<?php echo $this->baseUrl('/'); ?>">Home page</a>.</li>
+                    <li>Check Stores From <a title="All Stores" href="<?php echo $this->baseUrl('/stores'); ?>">All Stores</a></li>
+                    <li>Check Categories From <a title="All Categories" href="<?php echo $this->baseUrl('/categories'); ?>">All Categories</a></li>
+                </ul>
+            </dd>
+        </dl>
+        <br>
+    </div>    
+</div>

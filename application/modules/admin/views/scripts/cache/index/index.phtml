@@ -1,0 +1,36 @@
+<form id="cache-grid-form" action="<?php echo $this->getGridUrl()?>" method="post">  
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-cache">
+                        <?php echo $this->translate('Manage Caches');?>
+                    </h3>
+                </td>
+                <td class="form-buttons">
+                    
+                    <button onclick="cache.setElement('main-container').setUseType('url').setURL('<?php echo $this->getCreateUrl() ?>').loadPage();" type="button" title="<?php echo $this->translate('Create Cache');?>" class="scalable add">
+                        <span><span><span>
+                        <?php echo $this->translate('Create Cache');?>
+                        </span></span></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="grid-list"></div>
+</form>
+<script>
+var cache = new Ccc.Cache();
+cache.setObject('cache');
+cache.resetCheckedElements();
+cache.setForm('cache-grid-form');
+cache.setUseType('url');
+cache.setURL('<?php echo $this->getGridUrl()?>');
+if(cache.getForm())
+{
+    cache.loadPage();
+}
+</script>

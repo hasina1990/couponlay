@@ -1,0 +1,35 @@
+<form id="grid-search-form" action="<?php echo $this->getGridUrl()?>" method="post">  
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-admin">
+                        <?php echo $this->translate('Manage Footer Links');?>
+                    </h3>
+                </td>
+                <td class="form-buttons">
+                    <button onclick="menu.setElement('main-container').setUseType('url').setURL('<?php echo $this->getCreateUrl() ?>').loadPage();" type="button" title="<?php echo $this->translate('Add New Footer Link');?>" class="scalable add">
+                        <span><span><span>
+                        <?php echo $this->translate('Add New Footer Link');?>
+                        </span></span></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="grid-list"></div>
+</form>
+<script>
+var menu = new Ccc.Menu();
+menu.setObject('menu');
+menu.resetCheckedElements();
+menu.setForm('grid-search-form');
+menu.setUseType('url');
+menu.setURL('<?php echo $this->getGridUrl()?>');
+if(menu.getForm())
+{
+    menu.loadPage();
+}
+</script>

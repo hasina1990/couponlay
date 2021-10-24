@@ -1,0 +1,20 @@
+<?php $coupon = $this->getCoupon();  ?>
+
+<?php $headerBlock = Ccc::getBlock("user/pages_html_header"); ?>
+
+<div class="col-100" align="center">
+    <?php if($logo = $headerBlock->getLogoURL()): ?>
+        <img src="<?php echo $logo; ?>" alt="<?php echo $headerBlock->getWebsiteName(); ?>">
+    <?php else: ?>
+        <label style="display : block; font-size: 25px; padding: 20px; font-style: inherit; outline: none;"><?php echo $headerBlock->getWebsiteName(); ?></label>
+    <?php endif; ?>
+    <h1 class="redirection-text">You will be redirected to the shop <?php echo $coupon["website_name"]?> soon.</h1>
+    <img src="<?php echo $this->baseUrl('skin/front/images/loader100.gif')?>" alt="loader100.gif">
+</div>
+<script>
+   
+    var delay = 500;
+    setTimeout(function(){
+        window.location.href = "<?php echo $this->getRedirectionUrl(); ?>";
+    }, delay);
+</script>

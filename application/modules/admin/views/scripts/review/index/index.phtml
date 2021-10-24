@@ -1,0 +1,35 @@
+<form id="review-search-form" action="<?php echo $this->getGridUrl()?>" method="post">  
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-admin">
+                        <?php echo $this->translate('Manage Reviews');?>
+                    </h3>
+                </td>
+                <td class="form-buttons">
+                    <button onclick="user_review.setElement('main-container').setUseType('url').setURL('<?php echo $this->getCreateUrl() ?>').loadPage();" type="button" title="<?php echo $this->translate('Add New Review');?>" class="scalable add">
+                        <span><span><span>
+                        <?php echo $this->translate('Add New Review');?>
+                        </span></span></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="grid-list"></div>
+</form>
+<script>
+var user_review = new Ccc.Review();
+user_review.setObject('user_review');
+user_review.resetCheckedElements();
+user_review.setForm('review-search-form');
+user_review.setUseType('url');
+user_review.setURL('<?php echo $this->getGridUrl()?>');
+if(user_review.getForm())
+{
+    user_review.loadPage();
+}
+</script>

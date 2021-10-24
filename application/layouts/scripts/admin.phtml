@@ -1,0 +1,21 @@
+<?php echo $this->doctype(); ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<?php echo Ccc::getBlock("admin/pages_html_head")->toHtml();?>
+    <body id="html-body" class="adminhtml-dashboard-index">
+        <div class="wrapper">
+            <div class="header">
+				<?php echo Ccc::getBlock("admin/pages_html_header")->toHtml();?>
+                <div id="header-menu"><?php echo Ccc::getBlock("admin/pages_html_menu")->toHtml();?></div>
+            </div>
+            <div class="container" id="container">
+                <div class="middle" id="anchor-content">
+					<?php echo Ccc::getBlock("admin/pages_html_message")->toHtml();?>
+                    <div id="main-container">
+						<?php echo Ccc::getBlock("admin/pages_html_container")->toHtml();?>
+                    </div>
+                </div>
+            </div>
+			<?php echo Ccc::getBlock("admin/pages_html_footer")->toHtml();?>
+        </div>
+    </body>
+</html>

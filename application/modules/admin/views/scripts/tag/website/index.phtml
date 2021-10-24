@@ -1,0 +1,40 @@
+<form id="grid-search-form" action="<?php echo $this->getGridUrl()?>" method="post">  
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-admin">
+                        <?php echo $this->translate('Assign Stores To Tag ('.$this->getTag()->name.')');?>
+                    </h3>
+                </td>
+                <td class="form-buttons">
+                    <button onclick="website.setElement('main-container').setUseType('url').setURL('<?php echo $this->getBackUrl() ?>').loadPage();" type="button" title="<?php echo $this->translate('Back');?>" class="back">
+                        <span><span><span>
+                        <?php echo $this->translate('Back');?>
+                        </span></span></span>
+                    </button>
+                    <button onclick="website.setElement('main-container').setUseType('form').setFormURL('<?php echo $this->getSaveUrl() ?>').setMessage('Please select stores which you want to assign.').assign();" type="button" title="<?php echo $this->translate('Add New Website');?>" class="scalable add">
+                        <span><span><span>
+                        <?php echo $this->translate('Assign');?>
+                        </span></span></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="grid-list"></div>
+</form>
+<script>
+var website = new Ccc.Website();
+website.setObject('website');
+website.resetCheckedElements();
+website.setForm('grid-search-form');
+website.setUseType('url');
+website.setURL('<?php echo $this->getGridUrl()?>');
+if(website.getForm())
+{
+    website.loadPage();
+}
+</script>

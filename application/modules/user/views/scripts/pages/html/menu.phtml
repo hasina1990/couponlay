@@ -1,0 +1,20 @@
+<?php $propertyGroups = $this->getPropertyGroups(); ?>
+
+<div class="menu">
+    <div class="frame">
+        <?php if(count($propertyGroups)) : ?>
+            <?php foreach($propertyGroups as $propertyGroupId => $propertyGroupName) : ?>
+                <a class="link<?php if($this->getSelectedProeprtyGroup() == $propertyGroupId):?> selected<?php endif; ?>" href="<?php echo $this->getPropertyGroupViewUrl($propertyGroupId); ?>"><?php echo ucfirst($propertyGroupName); ?></a>
+            <?php endforeach; ?>
+        <?php endif; ?>
+       
+        <a class="link last" href="<?php echo $this->getServicePropertyUrl(); ?>">Services</a>
+        <a class="link last" href="<?php echo $this->getAgentUrl();?>">Real Estate Agents</a>
+        <a class="link last" href="<?php echo $this->getInvestorUrl();?>">Investors</a>
+        <a class="link last" href="<?php echo $this->getBuilderUrl();?>">Builders</a>
+       
+        <div class="clear"></div>
+    </div>    
+</div>
+
+<div class="v-space"></div>

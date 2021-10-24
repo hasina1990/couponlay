@@ -1,0 +1,166 @@
+<div class="nav-bar">
+    <!-- menu start -->
+    <ul id="nav">
+        <li class=" active  level0">
+            <a href="<?php echo $this->baseUrl('admin/dashboard'); ?>" class="active">
+                <span><?php echo $this->translate('Dashboard'); ?></span>
+            </a>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="  parent level0">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('User'); ?></span>
+            </a>
+            <ul>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/user_index'); ?>">
+                        <span><?php echo $this->translate('Manage Users'); ?></span>
+                    </a>
+                </li>
+                <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="  parent level0">
+                    <a href="#" onclick="return false" class="">
+                        <span><?php echo $this->translate('Settings'); ?></span>
+                    </a>
+                    <ul>
+                        <li class="  level1">
+                            <a href="<?php echo $this->baseUrl('admin/user_setting'); ?>">
+                                <span><?php echo $this->translate('User'); ?></span>
+                            </a>
+                        </li>
+                        <li class="  level1">
+                            <a href="<?php echo $this->baseUrl('admin/user_setting/master'); ?>">
+                                <span><?php echo $this->translate('User Master'); ?></span>
+                            </a>
+                        </li>
+                        <li class="  level1">
+                            <a href="<?php echo $this->baseUrl('admin/profile_setting'); ?>">
+                                <span><?php echo $this->translate('Profile'); ?></span>
+                            </a>
+                        </li>
+                        <li class="  level1">
+                            <a href="<?php echo $this->baseUrl('admin/profile_setting/master'); ?>">
+                                <span><?php echo $this->translate('Profile Master'); ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+				<li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin'); ?>">
+                        <span><?php echo $this->translate('Manage Profile'); ?></span>
+                    </a>
+                </li>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/customer_satisfaction_survey'); ?>">
+                        <span><?php echo $this->translate('Manage Profile Settings'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="  parent level0">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('Journal'); ?></span>
+            </a>
+            <ul>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/journal_medication'); ?>" class="">
+                        <span><?php echo $this->translate('Medications'); ?></span>
+                    </a>
+                </li>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/journal_measurement'); ?>" class="">
+                        <span><?php echo $this->translate('Measurements'); ?></span>
+                    </a>
+                </li>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/journal_symptom'); ?>" class="">
+                        <span><?php echo $this->translate('Symptoms'); ?></span>
+                    </a>
+                </li>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/journal_trigger'); ?>" class="">
+                        <span><?php echo $this->translate('Triggers'); ?></span>
+                    </a>
+                </li>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/user_location'); ?>" class="">
+                        <span><?php echo $this->translate('User Location'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li> 
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="  parent level0">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('Medication'); ?></span>
+            </a>
+            <ul>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/condition_message'); ?>" class="">
+                        <span><?php echo $this->translate('Conditions'); ?></span>
+                    </a>
+                </li>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/medication_index'); ?>" class="">
+                        <span><?php echo $this->translate('Medications'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="  parent level0">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('CMS'); ?></span>
+            </a>
+            <ul>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/cms_page'); ?>" class="">
+                        <span><?php echo $this->translate('Manage Pages'); ?></span>
+                    </a>
+                </li>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/cms_block'); ?>" class="">
+                        <span><?php echo $this->translate('Manage Blocks'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        
+        <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="  parent level0">
+            <a href="#" onclick="return false" class="">
+                <span><?php echo $this->translate('System'); ?></span>
+            </a>
+            <ul>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/admin_index'); ?>" class="">
+                        <span><?php echo $this->translate('Manage Admins'); ?></span>
+                    </a>
+                </li>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/cache_index'); ?>" class="">
+                        <span><?php echo $this->translate('Manage Caches'); ?></span>
+                    </a>
+                </li>
+                <li onmouseover="jQuery(this).addClass('over')" onmouseout="jQuery(this).removeClass('over')" class="  parent level0">
+                    <a href="#" onclick="return false" class="">
+                        <span><?php echo $this->translate('Config'); ?></span>
+                    </a>
+                    <ul>
+                        <li class="  level1">
+                            <a href="<?php echo $this->baseUrl('admin/system_config'); ?>" class="">
+                                <span><?php echo $this->translate('Manage Configs'); ?></span>
+                            </a>
+                        </li>
+                        <li class="  level1">
+                            <a href="<?php echo $this->baseUrl('admin/system_config_group'); ?>" class="">
+                                <span><?php echo $this->translate('Manage Groups'); ?></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="  level1">
+                    <a href="<?php echo $this->baseUrl('admin/api_index'); ?>" class="">
+                        <span><?php echo $this->translate('Test API'); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <!-- menu end -->
+</div>

@@ -1,0 +1,67 @@
+<?php 
+$users = $this->getCollection();    
+?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-admin">
+                        <?php echo $this->translate('Latest 5 Subscribers');?>
+                    </h3>
+                </td>
+                <td class="form-buttons">
+<a href="javascript:void(0);" onclick="dashboard.setElement('main-container').setUseType('url').setURL('<?php echo $this->getManageSubscribeUserUrl() ?>').loadPage();">
+View All (<?php echo $this->getTotalUserCount(); ?>)</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <div>
+        <div class="grid">
+            <div class="hor-scroll">
+                <table class="data" id="periodGrid_table" cellspacing="0">
+                    <colgroup>
+                        <col width="100">
+                        <col width="">
+                        <col width="100">
+                    </colgroup>
+                    <thead>
+                        <tr class="headings">
+                            <th class="no-link">
+                                <span class="nobr"><?php echo 'ID';  ?></span>
+                            </th>
+                            <th class="no-link">
+                                <span class="nobr"><?php echo 'Email'; ?></span>
+                            </th>
+                            <th class="no-link last">
+                                <span class="nobr"><?php echo 'Is Active'; ?></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if(count($users)): ?>
+                            <?php $cnt = 0; ?>
+                            <?php foreach($users as $_user): ?>
+                            <tr class="<?php if(($cnt+1)%2==0): ?>odd<?php else:?>even<?php endif; ?> pointer">
+                                <td class="a-right "><?php echo $this->escape($_user->user_id); ?></td>
+                                <td class="a-left "><?php echo $this->escape($_user->email); ?></td>
+                                <td class="a-left last"><?php echo $this->getIsEnabled($_user); ?></td>
+                            </tr>
+                            <?php $cnt++; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td class="grid-column center no-record" colspan="14">
+                                <?php echo $this->translate('No records available.');?>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>            
+            </div>
+       </div>
+    </div>
+</div>

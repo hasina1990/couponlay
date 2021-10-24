@@ -1,0 +1,40 @@
+<?php $messageBlockObject = Ccc::getBlock('core/message'); ?>
+<?php $messageObject = $messageBlockObject->getSuccess(); ?>
+<?php if($messageObject->getMessages()): ?>
+<script>
+jQuery(document).ready(function()
+{
+	MESSAGE.setMessageType('success').setMessage('<?php echo json_encode($messageObject->getMessages()); ?>').show();
+});
+</script>
+
+<?php $messageObject->clearMessages(); ?>
+<?php endif; ?>
+
+
+<?php $messageObject = $messageBlockObject->getNotice(); ?>
+<?php if($messageObject->getMessages()): ?>
+<script>
+jQuery(document).ready(function()
+{
+	MESSAGE.setMessageType('notice').setMessage('<?php echo json_encode($messageObject->getMessages()); ?>').show();
+});
+</script>
+<?php $messageObject->clearMessages(); ?>
+<?php endif; ?>
+
+
+<?php $messageObject = $messageBlockObject->getError(); ?>
+<?php if($messageObject->getMessages()): ?>
+<script>
+jQuery(document).ready(function()
+{
+	MESSAGE.setMessageType('error').setMessage('<?php echo json_encode($messageObject->getMessages()); ?>').show();
+});
+</script>
+<?php $messageObject->clearMessages(); ?>
+<?php endif; ?>
+
+<script>
+var MESSAGE = new Core.Message();
+</script>

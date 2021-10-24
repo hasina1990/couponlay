@@ -1,0 +1,19 @@
+<?php $websites = $this->getWebsites(); ?>
+<?php if(count($websites)): ?>
+<div id="store-alpha-list" style="width: 100%;">
+    <div class="panel panel-default">   
+        <div class="panel-heading">
+          <h2 class="panel-title">Most Popular stores</h2>
+        </div>
+        <div class="panel-body panel-row last">
+          <div class="popular-store-list">
+                <ul>
+                    <?php foreach($websites as $_websiteId => $_name): ?>
+                    <li><p><a title="<?php echo ucfirst($_name); ?>" href="<?php echo $this->baseUrl(Ccc::getModel("core/url_rewrite")->getUrlKey($_websiteId, Core_Model_Url_Rewrite::ENTITY_STORE)); ?>"><?php echo ucfirst($_name); ?></a></p></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div> 
+     </div>       
+</div>
+<?php endif; ?>

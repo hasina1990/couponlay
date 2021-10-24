@@ -1,0 +1,281 @@
+<?php $config = $this->getConfigData();
+$object = $this->getObject();
+?>
+<div class="columns ">
+    <div class="side-col" id="page:left">
+        <h3><?php echo $this->translate('Manage General Settings'); ?></h3>
+        
+        <ul id="page_tabs" class="tabs">
+            <li>
+                <a href="javascript:void(0);" class="tabHeader tab-item-link" name="main_section" title="System Config" id="html">
+                    <span>System Config Information</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- TABS START -->
+    <div class="main-col" id="content">
+        <div class="main-col-inner">
+                <div id="messages"></div>
+                <div class="content-header">
+                    <h3 class="icon-head head-config-page">
+                        <?php if($config->entity_id): ?>
+                            <?php echo $this->translate('Edit Config'); ?>
+                        <?php else: ?>
+                            <?php echo $this->translate('Add Config'); ?>
+                        <?php endif; ?>
+                    </h3>
+                    <p class="form-buttons">
+                        
+                        <?php echo $this->formButton('cancel', $this->translate('Cancel'), array('class'=>'scalable', 'onclick'=>"{$object}.setUseType('url').setElement('main-container').setURL('".$this->getIndexJsonUrl()."').loadPage();")); ?>
+                        <?php echo $this->formButton('submit', $this->translate('Save'), array('class'=>'scalable save', 'onclick'=>"{$object}.setForm('config_frm').setElement('main-container').setFormURL('".$this->getSaveUrl($config)."').loadPage(); return false; ")); ?>
+                        
+                    </p>
+                </div>
+                
+                <div class="entry-edit">
+                    <form id="config_frm" action="<?php echo $this->getSaveUrl(); ?>" method="post"> 
+                        <div class="tabContent" style="display: none;">
+                            <div class="entry-edit">
+                                <div class="entry-edit-head">
+                                    <h4 class="icon-head head-edit-form fieldset-legend">System Config Information</h4>
+                                    <div class="form-buttons"></div>
+                                </div>
+                                <div class="fieldset " id="page_base_fieldset">
+                                    <div class="hor-scroll">
+                                        <table class="form-list" cellspacing="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Name'); ?> <span class="required">*</span>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->formText('config[name]', $this->escape($config->name), array('class'=>'input-text', 'maxlength'=>50)); ?>
+                                                        <div id="name" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Access Key'); ?> <span class="required">*</span>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->formText('config[access_key]', $this->escape($config->access_key), array('class'=>'input-text', 'maxlength'=>255)); ?>
+                                                        <div id="access_key" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Field Type'); ?> <span class="required">*</span>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->formSelect('config[field_type]', $config->field_type, array('class'=>'input-select'), $this->getFieldTypeOption()); ?>
+                                                        <div id="field_type" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Group'); ?> <span class="required">*</span>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->formSelect('config[system_config_group_id]', $config->system_config_group_id, array('class'=>'input-select'), $this->getSystemGroupOptions()); ?>
+                                                        <div id="system_config_group_id" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr id="text">
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Value'); ?> <span class="required">*</span>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->formText('config[value]', ($config->field_type == Config_Model_System_Config::FIELD_TYPE_TEXT_KEY) ? $this->escape($config->value) : null, array('class'=>'input-text', 'maxlength'=>255)); ?>
+                                                        <div id="value" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr id="boolean" style="display:none;">
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Value'); ?> <span class="required">*</span>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->formSelect('value', $this->escape($config->value), array('class'=>'input-select'), $this->getBooleanValueOption()); ?>
+                                                        <div id="name" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                <tr id="select" style="display:none;">
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Value'); ?> <span class="required">*</span>
+                                                        </label>
+                                                    </td>
+                                                    <td width="400px">
+                                                        <table class="dynamic-grid" cellpadding="0" cellspacing="0">
+                                                            <tbody id="alarm_time_main">
+                                                                <tr id="attribute-options-table">
+                                                                    <th><?php echo $this->translate('Key'); ?>:</th>
+                                                                    <th><?php echo $this->translate('Value'); ?>:</th>
+                                                                    <th><?php echo $this->translate('Sort Order'); ?>:</th>                
+                                                                    <th><?php echo $this->translate('Default'); ?>:</th>
+                                                                    <th><?php echo $this->formButton('addnew', $this->translate('Add New'), array('class'=>'input-button')); ?></th>
+                                                                </tr>
+                                                                
+                                                                <?php $i = 1; 
+                                                                      $this->select=$this->getSelectValues();
+                                                                ?>
+                                                                <?php if(isset($this->select)): ?>
+                                                                    <?php foreach($this->select as $select): ?>
+                                                                    <tr>
+                                                                        <td><?php echo $this->FormText('select['.$i.'][key]', $select->key, array('class'=>'input-text key','style'=>"width:80px;"));?></td>
+                                                                        <td><?php echo $this->FormText('select['.$i.'][value]', $select->value, array('class'=>'input-text values','style'=>"width:80px;"));?></td>
+                                                                        <td><?php echo $this->FormText('select['.$i.'][sort_order]', $select->sort_order, array('class'=>'input-text sort_order','style'=>"width:80px;"));?></td>
+                                                                        <td><input type="radio" name="select[default]" value="<?php echo $i; ?>" class="default" <?php if($select->default) echo 'checked="checked"'; ?> /></td>
+                                                                        
+                                                                        <?php if($i != 1): ?>
+                                                                        <td><?php echo $this->formButton('button', $this->translate('Remove'), array('class'=>'input-button', 'onclick'=>'jQuery(this).parent().parent().remove();')); ?></td>
+                                                                        <?php endif; ?>
+                                                                    </tr>
+                                                                    <?php $i++; endforeach; ?>
+                                                                <?php else: ?>
+                                                                    <tr>
+                                                                        <td><?php echo $this->FormText('select[1][key]', null, array('class'=>'input-text key','style'=>"width:80px;"));?></td>
+                                                                        <td><?php echo $this->FormText('select[1][value]', null, array('class'=>'input-text values','style'=>"width:80px;"));?></td>
+                                                                        <td><?php echo $this->FormText('select[1][sort_order]', null, array('class'=>'input-text sort_order','style'=>"width:80px;"));?></td>
+                                                                        <td><input type="radio" name="select[default]" class="default" value="1"/></td>
+                                                                    </tr>
+                                                                <?php endif; ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+    <!-- TABS END -->
+</div>
+
+<table style="display: none;">
+    <tbody id="newRow">
+        <tr class="">
+            <td><?php echo $this->FormText('select[][key]', null, array('class'=>'input-text key','style'=>"width:80px;"));?></td>
+            <td><?php echo $this->FormText('select[][value]', null, array('class'=>'input-text values','style'=>"width:80px;"));?></td>
+            <td><?php echo $this->FormText('select[][sort_order]', null, array('class'=>'input-text sort_order','style'=>"width:80px;"));?></td>
+            <td><input type="radio" name="select[default]" class="default" value="1"/></td>
+            <td><?php echo $this->formButton('button', $this->translate('Remove'), array('class'=>'input-button', 'onclick'=>'jQuery(this).parent().parent().remove();')); ?></td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+var tabObject = new Core.Tab();
+jQuery(document).ready(function()
+{
+    tabObject.setupTab();
+});
+</script>
+
+<script>
+jQuery('document').ready(function (){
+    if(jQuery('#config-field_type').val() == 'text')
+    {
+        jQuery("#text").show();
+        jQuery("#boolean").hide();
+        jQuery("#select").hide();
+    }
+    else if(jQuery('#config-field_type').val() == 'boolean')
+    {
+        jQuery("#boolean").show();
+        jQuery("#text").hide();
+        jQuery("#select").hide();
+    }
+    else if(jQuery('#config-field_type').val() == 'select')
+    {
+        jQuery("#select").show();
+        jQuery("#boolean").hide();
+        jQuery("#text").hide();
+    }
+    jQuery('#config-field_type').change(function(){
+        if(jQuery('#config-field_type').val() == 'text')
+        {
+            jQuery("#text").show();
+            jQuery("#boolean").hide();
+            jQuery("#select").hide();
+        }
+        else if(jQuery('#config-field_type').val() == 'boolean')
+        {
+            jQuery("#boolean").show();
+            jQuery("#text").hide();
+            jQuery("#select").hide();
+        }
+        else if(jQuery('#config-field_type').val() == 'select')
+        {
+            jQuery("#select").show();
+            jQuery("#boolean").hide();
+            jQuery("#text").hide();
+        }
+    });
+    
+    jQuery('#addnew').click(function(){
+        jQuery("#alarm_time_main").append(jQuery("#newRow").html());
+            var radioChecked = jQuery(".default:checked");
+            var radio = jQuery(".default");
+            var index = radio.index(radioChecked);
+            jQuery(this).val(index);
+            
+            jQuery(".key").eq(radio.size()-2).attr('name', 'select['+(radio.size()-1)+'][key]');
+            jQuery(".values").eq(radio.size()-2).attr('name', 'select['+(radio.size()-1)+'][value]');
+            jQuery(".sort_order").eq(radio.size()-2).attr('name', 'select['+(radio.size()-1)+'][sort_order]');
+    });
+    
+    jQuery(".default").click(function (){
+        var radioChecked = jQuery(".default:checked");
+        var radio = jQuery(".default");
+        var index = radio.index(radioChecked);
+        jQuery(this).val(index);
+    });
+});
+</script>

@@ -1,0 +1,174 @@
+<?php 
+$object = $this->getObject();
+?>
+<div class="columns" style="background: none;">
+    <div class="side-col" id="page:left" style="display: none;">
+        <h3><?php echo $this->translate('Manage General Settings'); ?></h3>
+        
+        <ul id="page_tabs" class="tabs">
+            <li>
+                <a href="javascript:void(0);" class="tabHeader tab-item-link" name="main_section" title="System Config" id="html">
+                    <span>General Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- TABS START -->
+    <div id="content">
+        <div class="main-col-inner">
+                <div id="messages"></div>
+                       
+                <div class="entry-edit">
+                    <form id="config_frm" action="<?php echo $this->getSaveUrl(); ?>" method="post" enctype="multipart/form-data"> 
+                        <div class="tabContent" style="display: none;">
+                            <div class="entry-edit">
+                                <div class="entry-edit-head">
+                                    <h4 class="icon-head head-edit-form fieldset-legend">General Settings</h4>
+                                    <div class="form-buttons"></div>
+                                </div>
+                                <div class="fieldset " id="page_base_fieldset">
+                                    <div class="hor-scroll">
+                                        <table class="form-list" cellspacing="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Website Logo'); ?>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                       <?php if($logo = $this->getWebsiteLogoConfig()): ?>
+                                                       <img src="<?php echo $logo; ?>" width="50" height="50" />
+                                                       <?php endif; ?>
+                                                       
+                                                       <input type="file" name="website_logo" /> 
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Website Name'); ?>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->formText('config[website_name]', $this->escape($this->getWebsiteNameConfig()->value), array('class'=>'input-text', 'maxlength'=>50)); ?>
+                                                        <div id="website_name" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Website Seo Title'); ?>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->formText('config[website_seo_title]', $this->escape($this->getWebsiteSeoTitleConfig()->value), array('class'=>'input-text', 'maxlength'=>50)); ?>
+                                                        <div id="website_seo_title" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Website Seo Description'); ?>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->FormTextarea('config[website_seo_description]]', $this->getWebsiteSeoDescriptionConfig()->value, array('class'=>'input-text', "style"=>"margin-top: 0px; width:100%; height:10em;", 'maxlength'=>255)) ;?>
+                                                        <div id="website_seo_description" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Website Seo Keywords'); ?>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->formText('config[website_seo_keyword]', $this->escape($this->getWebsiteSeoKeywordConfig()->value), array('class'=>'input-text', 'maxlength'=>50)); ?>
+                                                        <div id="website_seo_keyword" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Website Facebook Page'); ?>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->formText('config[website_fb_page]', $this->escape($this->getWebsiteFacebookConfig()->value), array('class'=>'input-text', 'maxlength'=>50)); ?>
+                                                        <div id="website_fb_page" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Website Twitter Page'); ?>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->formText('config[website_twitter_page]', $this->escape($this->getWebsiteTwitterConfig()->value), array('class'=>'input-text', 'maxlength'=>50)); ?>
+                                                        <div id="website_twitter_page" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td class="label">
+                                                        <label for="page_title">
+                                                            <?php echo $this->translate('Website Google Plus Page'); ?>
+                                                        </label>
+                                                    </td>
+                                                    <td class="value">
+                                                        <?php echo $this->formText('config[website_google_page]', $this->escape($this->getWebsiteGoogleConfig()->value), array('class'=>'input-text', 'maxlength'=>50)); ?>
+                                                        <div id="website_google_page" class="messages">
+                                                            <ul class="success"></ul>
+                                                            <ul class="error"></ul>
+                                                            <ul class="notice"></ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+    <!-- TABS END -->
+</div>
+
+<script>
+var tabObject = new Core.Tab();
+jQuery(document).ready(function()
+{
+    tabObject.setupTab();
+});
+</script>

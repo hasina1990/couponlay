@@ -1,0 +1,126 @@
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index: 2000;">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <?php if(!$this->isHomePage()): ?>
+      <button type="button" class="navbar-toggle search-bar" data-toggle="collapse" data-target=".search-collapse">
+        <img alt="Search Store" src="<?php echo $this->baseUrl("skin/front/images/search.png"); ?>" />
+      </button>
+      <?php endif; ?> 
+      
+      <?php if($url = $this->getLogoURL()): ?>
+        <a href="<?php echo $this->getHomeUrl(); ?>" title="<?php echo $this->getWebsiteName(); ?>"><img src="<?php echo $this->getLogoURL(); ?>" alt="<?php echo basename($this->getLogoURL()); ?>"></a>
+      <?php else: ?>
+        <a class="navbar-brand" title="<?php echo $this->getWebsiteName(); ?>" href="<?php echo $this->getHomeUrl(); ?>"><?php echo $this->getWebsiteName(); ?></a>
+      <?php endif; ?>
+    </div>
+    <?php if(!$this->isHomePage()): ?> 
+    <div class="search-collapse collapse">
+        <div class="searchHederForm" id="searchHederForm">
+            <form onsubmit="javascript:void(0); return false;" class="navbar-form" role="form" name="frmHeaderSearch" id="frmHeaderSearch" method="post" action="<?php echo $this->getSearchUrl(); ?>">
+                <div class="search-header-box">
+                    <input type="text" name="search" id="search" class="form-control searchTextBox" placeholder="Type in a store e.g. Amazon, Flipkart, Jabong, etc...">
+                    <input type="submit" name="mobileMenuSearchSubmit" id="mobileMenuSearchSubmit" value=""/>
+                </div>
+                <div class="clear"></div>
+            </form>
+            
+            <script type="text/javascript">                                                          
+                var searchHeader = new Ccc.Search();
+                searchHeader.setForm('frmHeaderSearch');
+                jQuery(document).ready(function()
+                {
+                    jQuery('#frmHeaderSearch').submit(function()
+                    {         
+                        searchHeader.searchStores();
+                        return false;
+                    });
+                    
+                    jQuery('.searchTextBox').autocomplete({
+                          source: function( request, response ) {
+                            var matches = jQuery.map( <?php echo json_encode($this->getAllWebsitesForAutoComplete()); ?>, function(json) {
+                              if ( json.toUpperCase().indexOf(request.term.toUpperCase()) === 0 ) {
+                                return json;
+                              }
+                            });
+                            response(matches);
+                          }
+                    });    
+                });
+            </script>
+        </div>      
+    </div>
+    <?php endif; ?>
+   <!-- <div class="clear"></div> -->
+    <div class="navbar-collapse collapse navbar-right">
+        <?php $menus = $this->getMenus(); ?>
+        <?php if(count($menus)): ?>
+            <ul class="nav navbar-nav"> 
+            <?php foreach($menus as $_menu): ?>
+                  <li><a href="<?php echo $this->baseUrl($_menu->url); ?>" title="<?php echo $_menu->title; ?>"><?php echo $_menu->label; ?></a></li>
+            <?php endforeach;?>          
+            </ul> 
+        <?php endif; ?>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
+<?php if($entity = $this->getCategoryTagWebsitePage()): ?>
+<div class="navbar navbar-inverse navbar-fixed-top shopStickyHeader" role="navigation">
+  <div class="container">
+    <?php if($website = $this->getWebsite()): ?>
+    <div class="navbar-header shoplogo">
+        <a href="<?php echo Ccc::getModel("core/url_rewrite")->getRedirectUrlByEntity($website->website_id, Core_Model_Url_Rewrite::ENTITY_STORE); ?>" title="<?php echo ucfirst($website->name); ?>">
+            <img src="<?php echo Ccc::getModel("website/uploader")->setWebsite($website)->getIconImageUrl() ?>" alt="<?php echo ucfirst($website->name); ?>">
+        </a>
+    </div>
+    <?php endif; ?>
+    
+    <div class="shopName">
+         <h1><?php echo $entity->seo_title; ?></h1>
+    </div>
+    
+    <div class="shopFilterTabs">
+        <div class="shopFilterbuttons"> 
+            <label class="shopFilterbuttonslabel">Sort Offer by Type:&nbsp;</label>
+            <button class="btn btn-sm btn-primary btn-all" type="button"><span>All (<?php echo (int)Ccc::getModel("user/session")->getSession("codeCount") + (int)Ccc::getModel("user/session")->getSession("dealCount"); ?>)</span></button>
+            <button class="btn btn-sm btn-primary btn-code" type="button"><span>Codes (<?php echo (int)Ccc::getModel("user/session")->getSession("codeCount"); ?>)</span></button>
+            <button class="btn btn-sm btn-primary btn-deal" type="button"><span>Deals (<?php echo (int)Ccc::getModel("user/session")->getSession("dealCount"); ?>)</span></button> 
+        </div>
+    </div>
+  </div>
+</div>
+<?php endif; ?>
+
+<script type="text/javascript">
+jQuery("document").ready(function(){
+    
+    jQuery(".btn-all").click(function(){
+        jQuery(".deal-panel").show();
+        jQuery(".code-panel").show();
+    });
+    
+    jQuery(".btn-code").click(function(){
+        jQuery(".deal-panel").hide();
+        jQuery(".code-panel").show();
+    });
+    
+    jQuery(".btn-deal").click(function(){
+        jQuery(".deal-panel").show();
+        jQuery(".code-panel").hide();
+    });
+    
+    jQuery(window).scroll(function() {
+          if(jQuery(".shopFilterTabs").css("display") == "none")
+          {
+              jQuery(".shopName").css("display", "none");  
+              jQuery(".shopFilterTabs").css("display", "block");
+          }
+    });
+});
+</script>

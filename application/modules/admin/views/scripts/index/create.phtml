@@ -1,0 +1,163 @@
+<?php $admin = $this->getAdminData();
+$object = $this->getObject();
+?>
+<div class="columns ">
+    
+    <div class="side-col" id="page:left">
+        <h3><?php echo $this->translate('Manage Admins'); ?></h3>
+        <ul id="page_tabs" class="tabs">
+            <li>
+                <a href="javascript:void(0);" class="tabHeader tab-item-link" name="main_section" title="<?php echo $this->translate('Admin Information'); ?>" id="html">
+                <span><?php echo $this->translate('Admin Information'); ?></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- TABS START -->
+    
+    <div class="main-col" id="content">
+        <div class="main-col-inner">
+            <div id="messages"></div>
+            <div class="content-header">
+                <h3 class="icon-head head-admin-page">
+                    <?php if($admin->admin_id): ?>
+                        <?php echo $this->translate('Edit Admin'); ?>
+                    <?php else: ?>
+                        <?php echo $this->translate('Add Admin'); ?>
+                    <?php endif; ?>
+                </h3>
+
+                <p class="form-buttons">
+                    <?php echo $this->formButton('cancel', $this->translate('Cancel'), array('class'=>'scalable', 'onclick'=>"$object.setUseType('url').setElement('main-container').setURL('".$this->getIndexJsonUrl()."').loadPage();")); ?>
+                    <?php echo $this->formButton('submit', $this->translate('Save'), array('class'=>'scalable save', 'onclick'=>"$object.setForm('admin_frm').setElement('main-container').setFormURL('".$this->getSaveUrl($admin)."').loadPage(); return false; ")); ?>
+                </p>
+            </div>
+            
+            <div class="entry-edit">
+                <form id="admin_frm" name='admin_frm' action="<?php echo $this->url(array('action'=>'save')); ?>" method="post">
+                    <div class="tabContent" style="display: none;">
+                        <div class="entry-edit">
+                            <div class="entry-edit-head">
+                                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->translate('Admin Information'); ?></h4>
+                                <div class="form-buttons"></div>
+                            </div>
+                            <div class="fieldset " id="page_base_fieldset">
+                                <div class="hor-scroll">
+                                    <table class="form-list" cellspacing="0">
+                                        <tbody>
+                                        <tr>
+                                            <td class="label">
+                                                <label for="page_title">
+                                                    <?php echo $this->translate('First Name'); ?>:
+                                                </label>
+                                            </td>
+                                            <td class="value">
+                                                <?php echo $this->FormText('admin[first_name]',$this->escape($admin->first_name), array('class'=>'input-text', 'maxlength'=>50));?>
+                                                <div id="first_name" class="messages">
+                                                    <ul class="success"></ul>
+                                                    <ul class="error"></ul>
+                                                    <ul class="notice"></ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">
+                                                <label for="page_title">
+                                                    <?php echo $this->translate('Last Name'); ?>:
+                                                </label>
+                                            </td>
+                                            <td class="value">
+                                                <?php echo $this->FormText('admin[last_name]',$this->escape($admin->last_name), array('class'=>'input-text', 'maxlength'=>50));?>
+                                                <div id="last_name" class="messages">
+                                                    <ul class="success"></ul>
+                                                    <ul class="error"></ul>
+                                                    <ul class="notice"></ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">
+                                                <label for="page_title">
+                                                    <?php echo $this->translate('Email'); ?>:<span class="required">*</span>
+                                                </label>
+                                            </td>
+                                            <td class="value">
+                                                <?php echo $this->FormText('admin[email]',$this->escape($admin->email), array('class'=>'input-text', 'maxlength'=>254));?>
+                                                <div id="email" class="messages">
+                                                    <ul class="success"></ul>
+                                                    <ul class="error"></ul>
+                                                    <ul class="notice"></ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">
+                                                <label for="page_title">
+                                                    <?php echo $this->translate('Enabled'); ?>:<span class="required">*</span>
+                                                </label>
+                                            </td>
+                                            <td class="value">
+                                                <?php 
+                                                    if($this->getLoginId()==$admin->admin_id)
+                                                        echo $this->FormSelect('admin[is_enabled]',$this->escape($admin->is_enabled), array('class'=>'input-select', 'maxlength'=>254,'disabled'=>'disabled'), $this->getIsEnabledOptions());
+                                                    else
+                                                        echo $this->FormSelect('admin[is_enabled]',$this->escape($admin->is_enabled), array('class'=>'input-select', 'maxlength'=>254), $this->getIsEnabledOptions());
+                                                ?>
+                                                <div id="is_enabled" class="messages">
+                                                    <ul class="success"></ul>
+                                                    <ul class="error"></ul>
+                                                    <ul class="notice"></ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="entry-edit-head">
+                                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->translate('Manage Password'); ?></h4>
+                                <div class="form-buttons"></div>
+                            </div>
+                            <div class="fieldset " id="page_base_fieldset">
+                                <div class="hor-scroll">
+                                    <table class="form-list" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td class="label">
+                                                    <label for="page_title">
+                                                        <?php echo $this->translate('New Password'); ?>:<span class="required">*</span>
+                                                    </label>
+                                                </td>
+                                                <td class="value">
+                                                    <?php echo $this->FormPassword('admin[password]', null, array('class'=>'input-text', 'maxlength'=>20));?>
+                                                    <div id="password" class="messages">
+                                                        <ul class="success"></ul>
+                                                        <ul class="error"></ul>
+                                                        <ul class="notice"></ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!-- TABS END -->
+</div>
+
+<script>
+var tabObject = new Core.Tab();
+jQuery(document).ready(function()
+{
+    tabObject.setupTab();
+});
+
+</script>

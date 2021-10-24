@@ -1,0 +1,35 @@
+<form id="config-group-grid-form" action="<?php echo $this->getGridUrl()?>" method="post">  
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td style="width: 50%;">
+                    <h3 class="icon-head head-adminhtml-config_group">
+                        <?php echo $this->translate('Manage Config Groups');?>
+                    </h3>
+                </td>
+                <td class="form-buttons">
+                    <button onclick="systemConfigGroup.setElement('main-container').setUseType('url').setURL('<?php echo $this->getCreateUrl() ?>').loadPage();" type="button" title="<?php echo $this->translate('Create Config Group');?>" class="scalable add">
+                        <span><span><span>
+                        <?php echo $this->translate('Create Config Group');?>
+                        </span></span></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="grid-list"></div>
+</form>
+<script>
+var systemConfigGroup = new Ccc.System_Config_Group();
+systemConfigGroup.setObject('systemConfigGroup');
+systemConfigGroup.resetCheckedElements();
+systemConfigGroup.setForm('config-group-grid-form');
+systemConfigGroup.setUseType('url');
+systemConfigGroup.setURL('<?php echo $this->getGridUrl()?>');
+if(systemConfigGroup.getForm())
+{
+    systemConfigGroup.loadPage();
+}
+</script>

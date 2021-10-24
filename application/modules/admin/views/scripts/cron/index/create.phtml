@@ -1,0 +1,111 @@
+<?php $cron = $this->getCronData();?>
+<div class="columns ">
+    <div class="side-col" id="page:left">
+        <h3><?php echo $this->translate('Manage Crons'); ?></h3>
+        <ul id="page_tabs" class="tabs">
+            <li>
+                <a href="javascript:void(0);" class="tabHeader tab-item-link" name="main_section" title="<?php echo $this->translate('Cron Information'); ?>" id="html">
+                <span><?php echo $this->translate('Cron Information'); ?></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- TABS START -->
+    <div class="main-col" id="content">
+        <div class="main-col-inner">
+            <div id="messages"></div>
+            <div class="content-header">
+                <?php if($cron->cron_id): ?>
+                    <h3 class="icon-head head-cms-page"><?php echo $this->translate('Edit Cron'); ?></h3>
+                <?php else: ?>
+                    <h3 class="icon-head head-cms-page"><?php echo $this->translate('Add Cron'); ?></h3>
+                <?php endif; ?>
+                <p class="form-buttons">
+                    <?php echo $this->formButton('cancel', $this->translate('Cancel'), array('class'=>'scalable', 'onclick'=>"object.setUseType('url').setElement('main-container').setURL('".$this->getIndexJsonUrl()."').loadPage();")); ?>
+                   <?php echo $this->formButton('submit', $this->translate('Save'), array('class'=>'scalable save', 'onclick'=>"object.setForm('cron_frm').setElement('main-container').setFormURL('".$this->getSaveUrl($cron)."').loadPage(); return false; ")); ?>
+                </p>
+            </div>
+            
+            <div class="entry-edit">
+                <form id="cron_frm" name='cron_frm' action="<?php echo $this->getIndexJsonUrl(); ?>" method="post">
+                    <div class="tabContent" style="display: none;">
+                        <div class="entry-edit">
+                            <div class="entry-edit-head">
+                                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->translate('Cron Information'); ?></h4>
+                                <div class="form-buttons"></div>
+                            </div>
+                            <div class="fieldset " id="page_base_fieldset">
+                                <div class="hor-scroll">
+<table class="form-list" cellspacing="0">
+<tbody>
+<tr>
+    <td class="label">
+        <label for="page_title">
+            <?php echo $this->translate('Job Code'); ?>:<span class="required">*</span>
+        </label>
+    </td>
+    <td class="value">
+        <?php echo $this->formText('cron[job_code]',$this->escape($cron->job_code), array('class'=>'input-text', 'maxlength'=>255)); ?>
+    </td>
+</tr>
+<tr>
+    <td class="label">
+        <label for="page_title">
+            <?php echo $this->translate('Model'); ?>:<span class="required">*</span>
+        </label>
+    </td>
+    <td class="value">
+        <?php echo $this->formText('cron[model]', $this->escape($cron->model), array('class'=>'input-text', 'maxlength'=>255)); ?>
+    </td>
+</tr>
+<tr>
+    <td class="label">
+        <label for="page_title">
+            <?php echo $this->translate('Description'); ?>:
+        </label>
+    </td>
+    <td class="value">
+        <?php echo $this->formTextarea('cron[description]', $this->escape($cron->description), array('class'=>'input-text', 'cols'=>'52', 'rows'=>'3', 'maxlength'=>255)); ?>
+    </td>
+</tr>
+<tr>
+    <td class="label">
+        <label for="page_title">
+            <?php echo $this->translate('Cron Expr'); ?>:<span class="required">*</span>
+        </label>
+    </td>
+    <td class="value">
+        <?php echo $this->formText('cron[cron_expr]',$this->escape($cron->cron_expr), array('class'=>'input-text', 'maxlength'=>255)); ?>
+    </td>
+</tr>
+<tr>
+    <td class="label">
+        <label for="page_title">
+            <?php echo $this->translate('Status'); ?>:
+        </label>
+    </td>
+    <td class="value">
+        <?php echo $this->FormSelect('cron[status]',$this->escape($cron->status), array('class'=>'input-select'), $this->getStatusOptions());?>
+    </td>
+</tr>
+</tbody>
+</table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+              </div>
+           </div>
+    </div>
+</div>
+  
+<script>
+var tabObject = new Core.Tab();
+jQuery(document).ready(function()
+{
+    tabObject.setupTab();
+});
+
+</script>

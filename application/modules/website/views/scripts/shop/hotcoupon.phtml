@@ -1,0 +1,42 @@
+<?php $coupons = $this->getTopFifteenCoupons();  ?>
+<?php if(count($coupons)): ?>
+<div id="hotcoupons">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Hottest Coupons</h2>
+    </div>
+      <?php $count = 1; ?>
+      <?php foreach($coupons as $_coupon): ?>
+            <div class="panel-body panel-row <?php if($count == count($coupons)): ?>last<?php endif; ?>">
+                <?php $url = $this->baseUrl(Ccc::getModel("core/url_rewrite")->getUrlKey($_coupon["website_id"], Core_Model_Url_Rewrite::ENTITY_STORE)); ?>
+                <div class="coupon-icon">
+                    <a title="<?php echo $_coupon["website_name"]; ?>" href="<?php echo $url; ?>">
+                    <img src="<?php echo Ccc::getModel("website/uploader")->getSmallImageUrl($_coupon["icon"]); ?>" alt="<?php echo basename(Ccc::getModel("website/uploader")->getSmallImageUrl($_coupon["icon"])); ?>">
+                    </a>
+                </div>
+                <div>
+                    <ul class="coupon-text coupon-text-home">
+                        <li class="store home"><a title="<?php echo $_coupon["website_name"]; ?>" href="<?php echo $url; ?>"><?php echo $_coupon["website_name"]; ?></a></li>
+                        <li class="store-text home-text">
+                         <a title="<?php echo $_coupon["name"];?>" class="btn-coupon" href="<?php echo Ccc::getModel("core/url_rewrite")->getRedirectUrlByEntity($_coupon["coupon_id"], Core_Model_Url_Rewrite::ENTITY_COUPON); ?>" id="<?php echo $_coupon["coupon_id"]?>" onclick="window.open('<?php echo $this->baseUrl(Ccc::getModel("core/url_rewrite")->getUrlKey($_coupon["website_id"], Core_Model_Url_Rewrite::ENTITY_STORE))."?cpn_id=".$_coupon['coupon_id']; ?>','_blank');window.open(this.href,'_self');">
+                        <?php echo $_coupon["name"];?>
+                        </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+      <?php $count = $count+1; ?>
+      <?php endforeach; ?>
+  </div>
+</div>
+<?php endif; ?>  
+
+<script type="text/javascript">                                                          
+    jQuery(document).ready(function()
+    {
+        jQuery(".btn-coupon-popup").click(function(){
+            window.open(jQuery("#"+this.id).data("url"),'_blank');
+            window.open(jQuery("#"+this.id).data("redirectUrl"),'_self');
+        });
+    });
+</script>
